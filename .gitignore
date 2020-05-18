@@ -1,0 +1,9 @@
+*.egg-info/
+*.py[co]
+__pycache__
+.idea
+.tox
+.coverage
+dist/
+build/
+README.html
