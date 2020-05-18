@@ -12,6 +12,9 @@ settings are lazyly loaded, plus some other goodies.
 
 It's classy, it's pretty, it's good.
 
+Here is a preview of how to use it. You can find out more documentation at
+Read the Docs website.
+
 ```python
 from classyconf import ClassyConf, Value, EnvFile, IniFile
 
@@ -70,13 +73,3 @@ def do_something(cfg):
     if cfg.DEBUG:   # this is evaluated lazily
          return
 ```
-
-Although `prettyconf` is great and very flexible, I don't like that the
-`config("debug")` call isn't lazy, so putting it into a class isn't enough:
-
-```python
-class MyConfig():
-    debug = config("debug")   # this is evaluated when this module is loaded
-```
-It's not easy to redefine the loaders for the settings, for example, read the
-test settings from `test.ini` and the normal settings from `base.ini`.
