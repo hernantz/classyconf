@@ -1,22 +1,20 @@
-import ast
-
 from collections import OrderedDict
 
-from .casts import Boolean, List, Option, Tuple, Identity
+from .casts import Boolean, List, Option, Tuple, Identity, evaluate
 from .exceptions import UnknownConfiguration
 from .loaders import Environment, NOT_SET
 from typing import Callable
 
 
-class Configuration(object):
-    # Shortcut for standard casts
-    boolean = Boolean()
-    list = List()
-    tuple = Tuple()
-    option = Option
-    identity = Identity()
-    eval = staticmethod(ast.literal_eval)
+# Shortcut for standard casts
+as_boolean = Boolean()
+as_list = List()
+as_tuple = Tuple()
+as_option = Option
+as_is = Identity()
 
+
+class Configuration(object):
     def __init__(self, loaders=None):
         if loaders is None:
             loaders = [
@@ -33,9 +31,9 @@ class Configuration(object):
         if callable(cast):
             cast = cast
         elif cast is None and (default is NOT_SET or default is None):
-            cast = self.identity
+            cast = as_is
         elif isinstance(default, bool):
-            cast = self.boolean
+            cast = as_boolean
         elif cast is None:
             cast = type(default)
         else:

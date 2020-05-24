@@ -1,4 +1,5 @@
 from .exceptions import InvalidConfiguration
+import ast
 
 
 class AbstractCast(object):
@@ -101,3 +102,6 @@ class Identity(AbstractCast):
     """
     def __call__(self, value):
         return value
+
+
+evaluate = ast.literal_eval

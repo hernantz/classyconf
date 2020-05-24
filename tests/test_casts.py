@@ -1,7 +1,7 @@
 import pytest
 
-from classyconf import config
-from classyconf.casts import Boolean, List, Option, Tuple
+from classyconf import Configuration
+from classyconf.casts import Boolean, List, Option, Tuple, evaluate
 from classyconf.exceptions import InvalidConfiguration
 
 
@@ -103,4 +103,4 @@ def test_fail_invalid_option_config():
 
 
 def test_if_cast_is_unbounded():
-    assert config.eval("None") is None
+    assert evaluate("None") is None

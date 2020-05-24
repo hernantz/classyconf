@@ -30,12 +30,6 @@ def test_customized_loaders(env_config, ini_config):
     del os.environ["ENVVAR2"]
 
 
-def test_from_import_basic_config():
-    from classyconf import config
-
-    assert isinstance(config, Configuration)
-
-
 def test_config_default_values():
     config = Configuration()
     assert config("DEFAULT", default="Default Value") == "Default Value"
