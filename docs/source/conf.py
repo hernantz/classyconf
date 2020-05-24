@@ -60,13 +60,7 @@ author = 'Hernan Lozano <hernantz@gmail.com>'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-_here = os.path.abspath(os.path.dirname(__file__))
 version = '0.0.0'
-with open(os.path.join(_here, "../..", "CHANGELOG.md")) as changes:
-    for line in changes:
-        version = line.strip()
-        if re.search('^[0-9]+\.[0-9]+(\.[0-9]+)?$', version):
-            break
 
 # The full version, including alpha/beta/rc tags.
 release = version
