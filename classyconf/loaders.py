@@ -325,12 +325,15 @@ class RecursiveSearch(AbstractConfigurationLoader):
         self._config_files = None
 
 
-class DictLoader(AbstractConfigurationLoader):
+class Dict(AbstractConfigurationLoader):
     def __init__(self, values_mapping):
-        self.values_mapping
+        """
+        :param dict values_mapping: A dictionary of hardcoded settings.
+        """
+        self.values_mapping = values_mapping
 
     def __repr__(self):
-        return "DictLoader({})".format(self.values_mapping)
+        return "Dict({})".format(self.values_mapping)
 
     def __contains__(self, item):
         return item in self.values_mapping
