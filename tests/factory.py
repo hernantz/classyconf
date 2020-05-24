@@ -1,6 +1,6 @@
 import argparse
 
-from classyconf import NOT_SET
+from classyconf.loaders import NOT_SET
 
 
 def parser_factory():
