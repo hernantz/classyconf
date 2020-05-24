@@ -58,6 +58,9 @@ class AbstractConfigurationLoader:
     def check(self):
         return True
 
+    def reload(self):
+        pass
+
 
 # noinspection PyAbstractClass
 class AbstractConfigurationFileLoader(AbstractConfigurationLoader):
@@ -145,6 +148,9 @@ class IniFile(AbstractConfigurationFileLoader):
         except NoOptionError:
             raise KeyError("{!r}".format(item))
 
+    def reload(self):
+        self._initialized = False
+
 
 class Environment(AbstractConfigurationLoader):
     """
@@ -214,6 +220,9 @@ class EnvFile(AbstractConfigurationFileLoader):
             raise KeyError("{!r}".format(item))
 
         return self.configs[self.var_format(item)]
+
+    def reload(self):
+        self.configs = None
 
 
 class RecursiveSearch(AbstractConfigurationLoader):
@@ -311,6 +320,9 @@ class RecursiveSearch(AbstractConfigurationLoader):
                 continue
         else:
             raise KeyError("{!r}".format(item))
+
+    def reload(self):
+        self._config_files = None
 
 
 class DictLoader(AbstractConfigurationLoader):
