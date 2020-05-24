@@ -83,7 +83,7 @@ class CommandLine(AbstractConfigurationLoader):
         self.configs = get_args(self.parser)
 
     def __repr__(self):
-        return "CommandLine(parser={})".format(self.parser)
+        return "{}(parser={})".format(self.__class__.__name__, self.parser)
 
     def __contains__(self, item):
         return item in self.configs
@@ -108,7 +108,7 @@ class IniFile(AbstractConfigurationFileLoader):
         self._initialized = False
 
     def __repr__(self):
-        return 'IniFile("{}")'.format(self.filename)
+        return '{}("{}")'.format(self.__class__.__name__, self.filename)
 
     def _parse(self):
         if self._initialized:
@@ -164,7 +164,8 @@ class Environment(AbstractConfigurationLoader):
         self.var_format = var_format
 
     def __repr__(self):
-        return "Environment(var_format={})".format(self.var_format)
+        return "{}(var_format={})".format(self.__class__.__name__,
+                                          self.var_format)
 
     def __contains__(self, item):
         return self.var_format(item) in os.environ
@@ -188,7 +189,7 @@ class EnvFile(AbstractConfigurationFileLoader):
         self.configs = None
 
     def __repr__(self):
-        return 'EnvFile("{}")'.format(self.filename)
+        return '{}("{}")'.format(self.__class__.__name__, self.filename)
 
     def _parse(self):
         if self.configs is not None:
@@ -304,7 +305,7 @@ class RecursiveSearch(AbstractConfigurationLoader):
         return self._config_files
 
     def __repr__(self):
-        return "RecursiveSearch(starting_path={})".format(self.starting_path)
+        return "{}(starting_path={})".format(self.__class__.__name__, self.starting_path)
 
     def __contains__(self, item):
         for config_file in self.config_files:
@@ -333,7 +334,7 @@ class Dict(AbstractConfigurationLoader):
         self.values_mapping = values_mapping
 
     def __repr__(self):
-        return "Dict({})".format(self.values_mapping)
+        return "{}({})".format(self.__class__.__name__, self.values_mapping)
 
     def __contains__(self, item):
         return item in self.values_mapping
