@@ -13,7 +13,7 @@ class Boolean(AbstractCast):
     }
 
     def __init__(self, values=None):
-        self.values = self.default_values
+        self.values = self.default_values.copy()
         if isinstance(values, dict):
             self.values.update(values)
 

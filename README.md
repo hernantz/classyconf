@@ -36,7 +36,9 @@ Later this object can be used to print settings
 DEBUG=True
 DATABASE_URL=postgres://localhost:5432/mydb
 ```
+
 Or with `__repl__()`
+
 ```python
 >>> conf = AppConfig()
 >>> conf
