@@ -50,9 +50,9 @@ class Configuration(object):
 
         return cast(default)
 
-    def reset(self):
+    def reload(self):
         for loader in self.loaders:
-            loader.reset()
+            loader.reload()
 
 
 class Value:
@@ -163,7 +163,6 @@ class ClassyConf(metaclass=DeclarativeValuesMetaclass):
         return self._declared_values[value].__get__(self, self.__class__)
 
 
-def reset_conf(conf):
+def reload_conf(conf):
     """Anytime you want to pick up new values call this function."""
-    # TODO: Los loaders son instancias que guardan estado
-    conf._config.reset()
+    conf._config.reload()
