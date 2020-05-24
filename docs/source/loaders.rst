@@ -24,8 +24,8 @@ Environment
 The ``Environment`` loader gets configuration from ``os.environ``. Since it
 is a common pattern to write env variables in caps, the loader accepts a
 ``var_format`` function to pre-format the variable name before the lookup
-occurs. By default it is ``env_prefix("")`` which combines `str.upper()`` and
-an empty prefix.
+occurs. By default it is ``env_prefix("")`` which combines ``str.upper()``
+and an empty prefix.
 
 .. note::
     In the case of CLI apps, it would be recommended to set some sort of
@@ -37,12 +37,14 @@ an empty prefix.
 
 .. code-block:: python
 
-    from classyconf import config
-    from classyconf.loaders import Environment
+    from classyconf import ClassyConf, Environment, Value
+
+    class AppConf(ClassyConf):
+        debug = Value(default=False)
 
 
-    config.loaders = [Environment(var_format=str.upper)]
-    config('debug')  # will look for a `DEBUG` variable
+    config = AppConf(loaders=[Environment(var_format=str.upper)])
+    config.debug  # will look for a `DEBUG` variable
 
 
 EnvFile
@@ -61,12 +63,14 @@ doesn't exist, this loader will be skipped without raising any errors.
 
 .. code-block:: python
 
-    from classyconf import config
-    from classyconf.loaders import EnvFile
+    from classyconf import ClassyConf, EnvFile, Value
+
+    class AppConf(ClassyConf):
+        debug = Value(default=False)
 
 
-    config.loaders = [EnvFile(file='.env', required=True, var_format=str.upper)]
-    config('debug')  # will look for a `DEBUG` variable
+    config = AppConf(loaders=[EnvFile(file='.env', var_format=str.upper)])
+    config.debug  # will look for a `DEBUG` variable instead of `debug`
 
 
 .. note::
@@ -96,24 +100,26 @@ By default it works with `argparse`_ parsers.
 
 .. code-block:: python
 
-    from classyconf import Configuration, NOT_SET
-    from classyconf.loaders import CommandLine
-
     import argparse
+    from classyconf import ClassyConf, Value, NOT_SET, CommandLine
 
 
     parser = argparse.ArgumentParser(description='Does something useful.')
     parser.add_argument('--debug', '-d', dest='debug', default=NOT_SET, help='set debug mode')
 
-    config = Configuration(loaders=[CommandLine(parser=parser)])
-    print(config('debug', default=False, cast=config.boolean))
+    class AppConf(ClassyConf):
+        DEBUG = Value(default=False)
+
+    config = AppConf(loaders=[CommandLine(parser=parser)])
+    print(config.DEBUG)
 
 
-Something to notice here is the :py:const:`NOT_SET<classyconf.loaders.NOT_SET>` value. CLI parsers often force you
-to put a default value so that they don't fail. In that case, to play nice with
-classyconf, you must set one. But that would break the discoverability chain
-that classyconf encourages. So by setting this special default value, you will
-allow classyconf to keep the lookup going.
+Something to notice here is the
+:py:const:`NOT_SET<classyconf.loaders.NOT_SET>` value. CLI parsers often
+force you to put a default value so that they don't fail. In that case, to
+play nice with classyconf, you must set one. But that would break the
+discoverability chain that classyconf encourages. So by setting this special
+default value, you will allow classyconf to keep the lookup going.
 
 The :py:func:`get_args<classyconf.loaders.get_args>` function converts the
 argparse parser's values to a dict that ignores
@@ -121,6 +127,35 @@ argparse parser's values to a dict that ignores
 
 
 .. _argparse: https://docs.python.org/3/library/argparse.html
+
+
+Dict
+++++
+
+.. autoclass:: classyconf.loaders.Dict
+
+This loader is great when you want to pin certain settings without having to
+change/override other loaders, files or defaults. It really comes handy when
+you are extending a
+:py:class:`ClassyConf<classyconf.configuration.ClassyConf>` class.
+
+.. code-block:: python
+
+    from classyconf import ClassyConf, Value, IniFile, Dict
+
+    class AppConfig(ClassyConf):
+        class Meta:
+            loaders = [IniFile("/opt/myapp/config.ini"), IniFile("/etc/myapp/config.ini")]
+
+        NUMBER = Value(default=1)
+        DEBUG = Value(default=False)
+        LABEL = Value(default="foo")
+        OTHER  = Value(default="bar")
+
+
+    class TestConfig(AppConfig):
+        class Meta:
+            loders = [Dict({"DEBUG": True, "NUMBER": 0})]
 
 
 RecursiveSearch
@@ -213,3 +248,64 @@ exception:
 
     # /baz is not parent of /foo/bar, so this raises an InvalidPath exception here
     rs = RecursiveSearch(starting_path="/foo/bar", root_path="/baz")
+
+
+Writing your own loader
++++++++++++++++++++++++
+
+If you need a custom loader, you should just extend the
+:py:class:`AbstractConfigurationLoader<classyconf.loaders.AbstractConfigurationLoader>`.
+
+.. autoclass:: classyconf.loaders.AbstractConfigurationLoader
+
+For example, say you want to write a Yaml loader. It is important to note
+that by raising a ``KeyError`` exception from the loader, classyconf knows
+that it has to keep looking down the loaders chain for a specific config.
+
+.. code-block:: python
+
+    import yaml
+    from classyconf.loaders import AbstractConfigurationLoader
+
+
+    class YamlFile(AbstractConfigurationLoader):
+        def __init__(self, filename):
+            self.filename = filename
+            self.config = None
+
+        def _parse(self):
+            if self.config is not None:
+                return
+            with open(self.filename, 'r') as f:
+                self.config = yaml.load(f)
+
+        def __contains__(self, item):
+            try:
+                self._parse()
+            except:
+                return False
+
+            return item in self.config
+
+        def __getitem__(self, item):
+            try:
+                self._parse()
+            except:
+                # KeyError tells classyconf to keep looking elsewhere!
+                raise KeyError("{!r}".format(item))
+
+            return self.config[item]
+
+        def reload(self):
+            self.config = None
+
+
+Then configure classyconf to use it.
+
+.. code-block:: python
+
+    from classyconf import ClassyConf
+
+    class AppConf(ClassyConf):
+        class Meta:
+            loaders = [YamlFile('/path/to/config.yml')]
