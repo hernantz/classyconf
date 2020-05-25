@@ -9,11 +9,78 @@ Loaders are in charge of loading configuration from various sources, like
 ``.ini`` files or *environment* variables. Loaders are ment to chained, so that
 classyconf checks one by one for a given configuration variable.
 
-classyconf comes with some loaders already included in ``classyconf.loaders``.
+``classyconf`` comes with some loaders already included in
+:py:mod:`classyconf.loaders<classyconf.loaders>`.
 
-.. seealso::
-    Some loaders include a ``var_format`` callable argument, see
-    :ref:`variable-naming` to read more about it's purpose.
+
+.. _variable-naming:
+
+Naming conventions for settings and namespaces
+++++++++++++++++++++++++++++++++++++++++++++++
+
+There happen to be some formating conventions for configuration paramenters
+based on where they are set. For example, it is common to name environment
+variables in uppercase:
+
+.. code-block:: sh
+
+    $ DEBUG=yes OTHER_CONFIG=10 ./app.py
+
+Since the enviroment is a global and shared dictionary, it is a good practice
+to also apply some prefix to each setting to avoid collitions with other
+known settings, like ``LOCALE``, ``TZ``, etc. This prefix works as a
+namespace for your app.
+
+.. code-block:: sh
+
+    $ MY_APP_DEBUG=yes MY_APP_OTHER_CONFIG=10 ./app.py
+
+but if you were to set this config in an ``.ini`` file, each setting should
+probably be in lower case, the namespace is implicit in the file path, i.e:
+``/etc/myapp/config.ini``.
+
+.. code-block:: ini
+
+    [settings]
+    debug=yes
+    other_config=10
+
+Command line argments have yet another conventions:
+
+.. code-block:: sh
+
+    $ ./app.py --debug=yes --another-config=10
+
+Classyconf let's you follow these aesthetics patterns by setting a
+``var_format`` function when instantiating the loaders.
+
+By default, the :py:class:`Environment<prettyconf.loaders.Environment>` is
+instantiated with ``var_format=env_prefix('')`` so that it looks for
+UPPER_CASED settings. But it can be easyly tweaked to address the prefix
+issue by using ``var_format=env_prefix("MY_APP_")``, and look for
+MY_APP_UPPER_CASED to play nice with other env variables.
+
+.. code-block:: python
+
+    from classyconf import ClassyConf, IniFile, Environment, Value, env_prefix
+
+    class AppConfig(ClassyConf):
+
+        class Meta:
+            loaders = [
+                Environment(var_format=env_prefix("MY_APP_"),
+                IniFile("/etc/myapp/config.ini")
+            ]
+
+        DEBUG = Value(default=False)
+        OTHER_CONFIG = Value(default=0)
+
+    config = AppConfig()
+
+    # looks for `MY_APP_DEBUG` in environment, then  `debug` in `settings` section of config.ini
+    config.DEBUG
+
+Keep reading to find out more about different loaders and their configurations.
 
 
 Environment

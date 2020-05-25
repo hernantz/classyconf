@@ -69,6 +69,11 @@ that can be extended or passed around your codebase.
     discovery works. Find out more at :ref:`discovery-customization`.
 
 
+.. seealso::
+    Some loaders include a ``var_format`` callable argument, see
+    :ref:`variable-naming` to read more about it's purpose.
+
+.. code-block:: python
 
     environments = {
         "production": ("spam", "eggs"),
