@@ -4,10 +4,6 @@ What's classyconf
 Classyconf is a framework agnostic python library created to make easy the
 separation of configuration and code
 
-It was born as a wrapper around `prettyconf`_, inspired by `goodconf`_,
-originally trying to follow the recomendations of `12 Factor`_'s topic about
-configs.
-
 It adds a declarative way to define settings for your projects contained in a
 class that can be extended, config objects can be passed around modules and
 settings are lazyly loaded, plus some other goodies (aka `dunder`_ methods).
@@ -30,6 +26,10 @@ is because config varies substantially across deploys and executions, code
 should not. The same code can be run inside a container or in a regular
 machine, it can be executed in production or in testing environments.
 
+
+Settings discoverability
+++++++++++++++++++++++++
+
 Well designed applications allow different ways to be configured. A proper
 settings-discoverability chain goes as follows:
 
@@ -44,9 +44,27 @@ settings-discoverability chain goes as follows:
 This raises the need to consolidate configuration in a single source of truth
 to avoid having config management scattered all over the codebase.
 
+
+Parsing and casting
++++++++++++++++++++
+
+- Naming conventions
+- Casts
+
+
+A settings architecture
++++++++++++++++++++++++
+
+Classyconf was born as a wrapper around `prettyconf`_, inspired by
+`goodconf`_, originally trying to follow the recomendations of `12 Factor`_'s
+topic about configs, but expanded to address all the cases stated above.
+
 The good practices that this library suggest have an agnostic approach to
 configure applications, no matter if they are web, CLI or GUI apps, hosted on
 the cloud or running in your desktop.
+
+Classyconf aims to be the settings management solution for perfectionists
+with deadlines.
 
 
 .. _`12 Factor`: http://12factor.net/
