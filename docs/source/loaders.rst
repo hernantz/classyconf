@@ -6,11 +6,44 @@ Configuration Loaders
    <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The history of config files:<br><br>.ini: maybe we need a little more<br>.xml: ok, this is too much<br>.json: ok, now we need comments back<br>.yaml: I&#39;m not sure about this python approach<br>.toml: back to .ini</p>&mdash; David Capello (@davidcapello) <a href="https://twitter.com/davidcapello/status/1262782791105892354?ref_src=twsrc%5Etfw">May 19, 2020</a></blockquote>
 
 Loaders are in charge of loading configuration from various sources, like
-``.ini`` files or *environment* variables. Loaders are ment to chained, so that
-classyconf checks one by one for a given configuration variable.
+``.ini`` files or *environment* variables. Loaders are ment to be chained, so
+that classyconf checks one by one for a given configuration variable.
 
-``classyconf`` comes with some loaders already included in
+If a loader doesn't find the configuration variable it raises a ``KeyError``
+so that the next loader get's checked. If no loader returns any value an
+:py:class:`UnknownConfiguration<classyconf.exceptions.UnknownConfiguration>`
+exception is thrown.
+
+Classyconf comes with some loaders already included in
 :py:mod:`classyconf.loaders<classyconf.loaders>`.
+
+By default the library will check the environment with the
+:py:class:`Environment<classyconf.loaders.Environment>` loader. You can
+change that behaviour, by customizing the loaders and the order in wich
+configuration discovery happens.
+
+.. code-block:: python
+
+    from classyconf import ClassyConf, IniFile, Environment, Value, EnvFile
+
+    class AppConfig(ClassyConf):
+
+        class Meta:
+            loaders = [
+                Environment(),
+                IniFile("/path/to/config.ini")
+            ]
+
+        DEBUG = Value(default=False)
+        OTHER_CONFIG = Value(default=0)
+
+
+    # Checks for enviroment variables first
+    # Then lookup settings in the `config.ini` file
+    config = AppConfig()
+
+    # Override loaders and only lookup in the `.env` file
+    test_config = AppConfig(loaders=[EnvFile("/path/to/.env")])
 
 
 .. _variable-naming:
@@ -18,7 +51,7 @@ classyconf checks one by one for a given configuration variable.
 Naming conventions for settings and namespaces
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-There happen to be some formating conventions for configuration paramenters
+There happen to be some formatting conventions for configuration paramenters
 based on where they are set. For example, it is common to name environment
 variables in uppercase:
 
@@ -68,7 +101,7 @@ MY_APP_UPPER_CASED to play nice with other env variables.
 
         class Meta:
             loaders = [
-                Environment(var_format=env_prefix("MY_APP_"),
+                Environment(var_format=env_prefix("MY_APP_")),
                 IniFile("/etc/myapp/config.ini")
             ]
 
