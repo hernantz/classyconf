@@ -22,6 +22,12 @@ By default the library will check the environment with the
 change that behaviour, by customizing the loaders and the order in wich
 configuration discovery happens.
 
+Loaders can be set in the ``Meta`` class when extending
+:py:class:`ClassyConf<classyconf.configuration.ClassyConf>` or passed as a
+param when instantiating it. The later takes precedence and overrides loaders
+defined in ``Meta``. The order within the list of loaders matters and defines
+the lookup order.
+
 .. code-block:: python
 
     from classyconf import ClassyConf, IniFile, Environment, Value, EnvFile
