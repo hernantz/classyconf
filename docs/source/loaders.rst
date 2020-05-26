@@ -10,7 +10,8 @@ Loaders are in charge of loading configuration from various sources, like
 that classyconf checks one by one for a given configuration variable.
 
 If a loader doesn't find the configuration variable it raises a ``KeyError``
-so that the next loader get's checked. If no loader returns any value an
+so that the next loader get's checked. If no loader returns any value, and no
+default value was set, an
 :py:class:`UnknownConfiguration<classyconf.exceptions.UnknownConfiguration>`
 exception is thrown.
 

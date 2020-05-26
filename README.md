@@ -28,6 +28,7 @@ class AppConfig(ClassyConf):
         default="postgres://localhost:5432/mydb",
         help="Database connection.")
 ```
+
 Later this object can be used to print settings
 
 ```python

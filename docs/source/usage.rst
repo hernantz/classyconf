@@ -1,8 +1,5 @@
-Usage
------
-
-One of the simplest ways to get started with ``classyconf`` is to use the
-:py:class:`Configuration<classyconf.configuration.Configuration>` class.
+Getting started
+---------------
 
 .. code-block:: python
 
@@ -43,12 +40,14 @@ The ``as_boolean`` cast converts strings values like ``On|Off``, ``1|0``,
 Declarative configuration object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Another more declarative approach is to use the
-:py:class:`ClassyConf<classyconf>`.
+The simplest ways to get started with classyconf is to use the
+:py:class:`ClassyConf<classyconf.configuration.Configuration>` class, to
+declare all the settings of your app.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value
+    from classyconf import ClassyConf, Value, Enviroment, IniFile, Option
+
 
     class AppConfig(ClassyConf):
         """Configuration for My App"""
@@ -57,33 +56,86 @@ Another more declarative approach is to use the
         DATABASE_URL = Value(
             default='postgres://localhost:5432/mydb',
             help="Database connection.")
+        LOG_LEVEL = Value(
+            default="INFO", cast=Option({"INFO": "info", "DEBUG": "debug"}))
+
+        class Meta:
+            loaders = [Environment(), IniFile("/etc/myapp/conf.ini")]
 
 
-This pythonic class allows you to encapsulate all configuration in one object
-that can be extended or passed around your codebase.
+This pythonic class allows you to encapsulate all configuration
+in one object by declaring your settings using the
+:py:class:`Value<classyconf.configuration.Value>` descriptor.
 
+You will notice that we have defined some loaders. :doc:`Loaders<loaders>`
+will help you customize how configuration discovery works. This is a list of
+objects that will be used to discover settings from different sources.
+
+Each loader is checked in the given order. In this case, we will first lookup
+each setting in the enviroment variables and, when not found, the declared
+``.ini`` file. If a setting is not found by any loader, the default value is
+returned, if set, or a
+:py:class:`UnknownConfiguration<classyconf.exceptions.UnknownConfiguration>`
+exception is thrown.
 
 .. seealso::
-    Learn more of what you can achieve and customize at .
-    :doc:`Loaders<loaders>` will help you customize how configuration
-    discovery works. Find out more at :ref:`discovery-customization`.
+    Some loaders include a ``var_format`` callable argument, see
+    :ref:`variable-naming` to read more about it's purpose.
 
+Later this object can be used to print settings
+
+.. code-block:: python
+
+    >>> conf = AppConfig()
+    >>> print(conf)
+    DEBUG=True
+    DATABASE_URL=postgres://localhost:5432/mydb
+
+Or with ``__repl__()``
+
+.. code-block:: python
+
+    >>> conf = AppConfig()
+    >>> conf
+    DEBUG=True (Toggle debugging.)
+    DATABASE_URL=postgres://localhost:5432/mydb (Database connection.)
+
+extended
+
+.. code-block:: python
+
+    class AppConfig(ClassyConf):
+        class Meta:
+            loaders = [IniFile("app_settings.ini")]
+
+        DEBUG = Value(default=False)
+
+
+    class DevConfig(AppConfig):
+        class Meta:
+            loaders = [IniFile("test_settings.ini")]
+
+
+accessed as dict or object
+
+.. code-block:: python
+
+    config.DEBUG
+    config["DEBUG"]
+
+or passed around
+
+.. code-block:: python
+
+    def do_something(cfg):
+        if cfg.DEBUG:   # this is evaluated lazily
+            return
+
+:doc:`Loaders<loaders>` will help you customize how configuration
+discovery works.
 
 .. seealso::
     Some loaders include a ``var_format`` callable argument, see
     :ref:`variable-naming` to read more about it's purpose.
 
 .. code-block:: python
-
-    environments = {
-        "production": ("spam", "eggs"),
-        "local": ("spam", "eggs", "test"),
-    }
-
-    # Will return a tuple with ("spam", "eggs") when
-    # ENVIRONMENT is undefined or defined with `production`
-    # and a tuple with ("spam", "eggs", "test") when
-    # ENVIRONMENT is set with `local`.
-    MODULES = config("ENVIRONMENT",
-                     default="production",
-                     cast=Option(environment))
