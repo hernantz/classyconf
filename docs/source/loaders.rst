@@ -6,8 +6,9 @@ Configuration Loaders
    <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The history of config files:<br><br>.ini: maybe we need a little more<br>.xml: ok, this is too much<br>.json: ok, now we need comments back<br>.yaml: I&#39;m not sure about this python approach<br>.toml: back to .ini</p>&mdash; David Capello (@davidcapello) <a href="https://twitter.com/davidcapello/status/1262782791105892354?ref_src=twsrc%5Etfw">May 19, 2020</a></blockquote>
 
 Loaders are in charge of loading configuration from various sources, like
-``.ini`` files or *environment* variables. Loaders are ment to be chained, so
-that classyconf checks one by one for a given configuration variable.
+``.ini`` files or *environment* variables, and expose configuration as a
+dict-like object. Loaders are ment to be chained, so that classyconf checks
+one by one for a given configuration variable.
 
 If a loader doesn't find the configuration variable it raises a ``KeyError``
 so that the next loader get's checked. If no loader returns any value, and no

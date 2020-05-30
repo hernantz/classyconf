@@ -30,8 +30,15 @@ machine, it can be executed in production or in testing environments.
 Settings discoverability
 ++++++++++++++++++++++++
 
-Well designed applications allow different ways to be configured. A proper
-settings-discoverability chain goes as follows:
+Well designed applications allow different ways to be configured. For example
+CLI args are great to explore an app from the shell, but when you already
+know what you want it would be great to set some defaults in a configuration
+file somewhere.
+
+But what happens if a setting is passed as CLI but also exist in the config
+file?
+
+A proper settings-discoverability chain goes as follows:
 
 1. First CLI args are checked.
 2. Then Environment variables.
@@ -39,7 +46,10 @@ settings-discoverability chain goes as follows:
    example: config files in ``/etc/myapp/settings.ini`` are applied
    system-wide, while ``~/.config/myapp/settings.ini`` take precedence and are
    user-specific.
-4. Hardcoded constants.
+4. Hardcoded constants as defaults.
+
+Each one of this sources of configuration need to be properly collected and
+overwritten with an explicit level of hierarchy.
 
 This raises the need to consolidate configuration in a single source of truth
 to avoid having config management scattered all over the codebase.
@@ -48,8 +58,12 @@ to avoid having config management scattered all over the codebase.
 Parsing and casting
 +++++++++++++++++++
 
-- Naming conventions
-- Casts
+Not only each different source of configuration needs to be parsed differently
+but also each setting might need to be converted from a generic type like strings to
+proper types like integers or db connection structs.
+
+Also each source of configuration follows some naming conventions, CLI args
+look like this ``--fag=true`` while environment variables can be ``FLAG=on``.
 
 
 A settings architecture
