@@ -156,6 +156,8 @@ You can implement your own custom casting function by passing any callable:
         NUMBERS = Value(default="1;2;3", cast=number_list, help="Semicolon separated numbers.")
 
 
+.. _implicit-casts:
+
 Implicit casts
 ~~~~~~~~~~~~~~
 ``classyconf`` tries to provide some sensible default casts based on the

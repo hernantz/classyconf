@@ -7,4 +7,8 @@ This project adheres to `Semantic Versioning`_.
 
 .. _`Semantic Versioning`: https://semver.org/spec/v2.0.0.html
 
-.. include:: ../../CHANGELOG.md
+
+0.0.1
+=====
+
+  - First version

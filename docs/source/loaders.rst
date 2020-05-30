@@ -56,7 +56,7 @@ the lookup order.
 
 .. _variable-naming:
 
-Naming conventions for settings and namespaces
+Naming conventions and namespaces for settings
 ++++++++++++++++++++++++++++++++++++++++++++++
 
 There happen to be some formatting conventions for configuration paramenters
