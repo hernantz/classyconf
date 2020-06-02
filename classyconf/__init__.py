@@ -1,4 +1,4 @@
-from .configuration import (Configuration, ClassyConf, Value, as_boolean,
+from .configuration import (ClassyConf, Value, as_boolean,
                             as_is, as_list, as_tuple, as_option, evaluate,
                             NOT_SET)
 from .casts import Boolean, List, Option, Tuple, Identity

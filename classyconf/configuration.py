@@ -1,12 +1,11 @@
 from collections import OrderedDict
-
-from .casts import Boolean, List, Option, Tuple, Identity, evaluate
-from .exceptions import UnknownConfiguration
-from .loaders import Environment, NOT_SET
 from typing import Callable
 
+from .casts import Boolean, Identity, List, Option, Tuple, evaluate
+from .exceptions import UnknownConfiguration
+from .loaders import NOT_SET, Environment
 
-# Shortcut for standard casts
+# Shortcuts for standard casts
 as_boolean = Boolean()
 as_list = List()
 as_tuple = Tuple()
@@ -14,41 +13,41 @@ as_option = Option
 as_is = Identity()
 
 
-class Configuration(object):
-    def __init__(self, loaders=None):
-        if loaders is None:
-            loaders = [
-                Environment(),
-            ]
-        self.loaders = loaders
+def getconf(item, default=NOT_SET, cast=None, loaders=None):
+    """
+    :param item:    Name of the setting to lookup.
+    :param default: Default value if none is provided. If left unset,
+                    loading a config that fails to provide this value
+                    will raise a UnknownConfiguration exception.
+    :param cast:    Callable to cast variable with. Defaults to type of
+                    default (if provided), identity if default is not
+                    provided or raises TypeError if provided cast is not
+                    callable.
+    :param loaders: A list of loader instances in the order they should be
+                    looked into. Defaults to `[Environment()]`
+    """
+    if callable(cast):
+        cast = cast
+    elif cast is None and (default is NOT_SET or default is None):
+        cast = as_is
+    elif isinstance(default, bool):
+        cast = as_boolean
+    elif cast is None:
+        cast = type(default)
+    else:
+        raise TypeError("Cast must be callable")
 
-    def __repr__(self):
-        loaders = ', '.join([repr(l) for l in self.loaders])
-        return '{}(loaders=[{}])'.format(self.__class__.__name__, loaders)
+    for loader in loaders:
+        try:
+            return cast(loader[item])
+        except KeyError:
+            continue
 
-    def __call__(self, item, default=NOT_SET, cast=None):
+    if default is NOT_SET:
+        raise UnknownConfiguration("Configuration '{}' not found".format(item))
 
-        if callable(cast):
-            cast = cast
-        elif cast is None and (default is NOT_SET or default is None):
-            cast = as_is
-        elif isinstance(default, bool):
-            cast = as_boolean
-        elif cast is None:
-            cast = type(default)
-        else:
-            raise TypeError("Cast must be callable")
+    return cast(default)
 
-        for loader in self.loaders:
-            try:
-                return cast(loader[item])
-            except KeyError:
-                continue
-
-        if default is NOT_SET:
-            raise UnknownConfiguration("Configuration '{}' not found".format(item))
-
-        return cast(default)
 
 class Value:
     def __init__(self, key: str = None, help: str = '', default: NOT_SET = NOT_SET, cast: Callable = None):
@@ -57,7 +56,7 @@ class Value:
                         variable. Set automatically by the metaclass.
         :param default: Default value if none is provided. If left unset,
                         loading a config that fails to provide this value
-                        will raise a RequiredValueMissing exception.
+                        will raise a UnknownConfiguration exception.
         :param cast:    Callable to cast variable with. Defaults to type of
                         default (if provided), identity if default is not
                         provided or raises TypeError if provided cast is not
@@ -71,7 +70,7 @@ class Value:
 
     def __get__(self, instance, owner):
         if instance:
-            return instance._config(self.key, default=self.default, cast=self.cast)
+            return getconf(self.key, default=self.default, cast=self.cast, loaders=instance._loaders)
         return self
 
     def __repr__(self):
@@ -122,10 +121,10 @@ class ClassyConf(metaclass=DeclarativeValuesMetaclass):
     def __init__(self, loaders=None):
         _loaders = self.Meta.loaders
         if _loaders is None:
-            _loaders = []
+            _loaders = [Environment()]
         if loaders:
             _loaders = loaders
-        self._config = Configuration(loaders=_loaders)
+        self._loaders = _loaders
 
     def __iter__(self):
         yield from self._declared_values.items()
@@ -133,7 +132,7 @@ class ClassyConf(metaclass=DeclarativeValuesMetaclass):
     def __repr__(self):
         return "{}(loaders=[{}])".format(
             self.__class__.__name__, ", ".join(
-                [str(loader) for loader in self._config.loaders]))
+                [str(loader) for loader in self._loaders]))
 
     def __str__(self):
         values = []

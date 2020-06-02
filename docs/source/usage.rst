@@ -79,9 +79,9 @@ loader to gather setting from a `.ini` file.
 
     >>> from classyconf import Environment, IniFile
     >>> config = AppConfig(loaders=[
-            Environment(),
-            IniFile("/etc/myapp/conf.ini", section="settings")
-        ])
+    ...    Environment(),
+    ...    IniFile("/etc/myapp/conf.ini", section="settings")
+    ... ])
 
 Now you might be asking, is this reading a file? do I have to create it? How
 do I access my settings?
@@ -120,9 +120,9 @@ Let's customize this:
 
     >>> from classyconf import env_prefix
     >>> config = AppConfig(loaders=[
-            Environment(var_format=env_prefix("MY_APP_")),
-            IniFile("/etc/myapp/conf.ini", section="settings", var_format=str.lower)
-        ])
+    ...    Environment(var_format=env_prefix("MY_APP_")),
+    ...    IniFile("/etc/myapp/conf.ini", section="settings", var_format=str.lower)
+    ... ])
 
 Now if you access ``config.DEBUG``, classyconf will first check for
 ``MY_APP_DEBUG=xxx`` in the ``os.enviroment`` but for ``debug=xxx`` in the
@@ -195,7 +195,7 @@ instance for you to keep inspecting (this doesn't evaluate the setting).
     >>> for setting in config:
     ...     print(setting)
     ...
-    ('DEBUG', Value(key="DEBUG", help="Output extra debugging info"))
+    ('DEBUG', Value(key="DEBUG", help="Toggle debugging on/off."))
 
 
 Lastly, if you want to pickup new values at some point, for example when

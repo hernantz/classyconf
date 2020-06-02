@@ -1,6 +1,5 @@
 import pytest
 
-from classyconf import Configuration
 from classyconf.casts import Boolean, List, Option, Tuple, evaluate
 from classyconf.exceptions import InvalidConfiguration
 
