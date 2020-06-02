@@ -80,7 +80,7 @@ class Value:
         return self
 
     def __repr__(self):
-        return '{}(key={}, help="{}")'.format(self.__class__.__name__, self.key, self.help)
+        return '{}(key="{}", help="{}")'.format(self.__class__.__name__, self.key, self.help)
 
 
 class DeclarativeValuesMetaclass(type):
@@ -141,7 +141,7 @@ class ClassyConf(metaclass=DeclarativeValuesMetaclass):
                 [str(loader) for loader in self._config.loaders]))
 
     def __str__(self):
-        values = [repr(self)]
+        values = []
         for _, v in self:
             if v.default is NOT_SET and not v.help:
                 help = "No default value provided"

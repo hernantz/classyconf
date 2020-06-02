@@ -2,7 +2,7 @@ What's classyconf
 -----------------
 
 Classyconf is a framework agnostic python library created to make easy the
-separation of configuration and code
+separation of configuration and code.
 
 It adds a declarative way to define settings for your projects contained in a
 class that can be extended, config objects can be passed around modules and

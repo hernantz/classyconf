@@ -34,7 +34,7 @@ as you need.
 
 We are using the ``as_boolean`` cast for the ``DEBUG`` setting. The
 ``as_boolean`` cast converts values like ``On|Off``, ``1|0``, ``yes|no``,
-``true|false`` into Python boolean ``True`` or ``False``.
+``true|false``, ``t|f`` into Python boolean ``True`` or ``False``.
 
 .. seealso::
     Visit the :doc:`Casts<casts>` section to find out more about other casts
@@ -99,7 +99,7 @@ The config instance can accessed as dict or object. Let's trigger a look up:
 Each loader is checked in the given order. In this case, we will first lookup
 each setting in the ``os.enviroment`` variables and, when not found, the
 declared `.ini` file (inside the ``settings`` section), but if this file
-doesn't exist, this loader is ignored.
+doesn't exist or is broken, this loader is ignored.
 
 If a setting is not found by any loader, the default value is returned, if
 set, or a
@@ -138,58 +138,80 @@ Now if you access ``config.DEBUG``, classyconf will first check for
 3. Extending settings
 ~~~~~~~~~~~~~~~~~~~~~
 
-Another way to declare default loaders is in the ``ClassyConf`` class itself.
+As you know, the same code might run in several different enviroments, like
+dev, staging, prod, etc.
+
+Although ``ClassyConf`` classes can be extended to define new ``Value``
+attributes or override them, the recomended way is to simply override the
+settings sources per enviroment.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, Environment, IniFile, as_option, env_prefix
+    from classyconf import EnvFile
 
-
-    class AppConfig(ClassyConf):
-        """Configuration for My App"""
-
-        DEBUG = Value(default=False, help="Toggle debugging on/off.")
-        LOG_LEVEL = Value(default="INFO",
-                          cast=as_option({"INFO": "info", "DEBUG": "debug"}),
-                          help="Set the logging output.")
-
+    class StagingConfig(AppConfig):
         class Meta:
-            loaders = [
-                Environment(var_format=env_prefix("MY_APP_")),
-                IniFile("/etc/myapp/conf.ini")
-            ]
+            loaders = [EnvFile("staging.env")]
+
+
+As we saw earlier, loaders can also be overridden at instantiation time.
+
+.. code-block:: python
+
+    from classyconf import Dict, EnvFile
+
+    test_config = AppConfig(loaders=[Dict({"DEBUG": True}), EnvFile("test.env")]
+
+In the snippet above we used the :py:class:`Dict<classyconf.loaders.Dict>`
+loader, which comes handy to ensure certain hardcoded settings always get
+picked up.
 
 
 4. Inspecting settings
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Later this object can be used to print settings
+Later this object can be used to print configuration, this will evaluate every setting.
 
 .. code-block:: python
 
     >>> config = AppConfig()
     >>> print(config)
-    DEBUG=True - Toggle debugging.
-    DATABASE_URL=postgres://localhost:5432/mydb - Database connection.
+    DEBUG=False - Toggle debugging on/off.
 
-Or with ``__repl__()``
-
-.. code-block:: python
-
-    >>> conf = AppConfig()
-    >>> conf
-
-extended
+Or with ``__repl__()`` you get a preview of how it was instantiated.
 
 .. code-block:: python
 
-    class AppConfig(ClassyConf):
-        class Meta:
-            loaders = [IniFile("app_settings.ini")]
-
-        DEBUG = Value(default=False)
+    >>> config = AppConfig()
+    >>> config
+    AppConf(loaders=[Environment()])
 
 
-    class DevConfig(AppConfig):
-        class Meta:
-            loaders = [IniFile("test_settings.ini")]
+It can also be iterated. This gives you the field key and the ``Value``
+instance for you to keep inspecting (this doesn't evaluate the setting).
+
+.. code-block:: python
+
+    >>> for setting in config:
+    ...     print(setting)
+    ...
+    ('DEBUG', Value(key="DEBUG", help="Output extra debugging info"))
+
+
+Lastly, if you want to pickup new values at some point, for example when
+using a long running daemon, call the reset method.
+
+.. code-block:: python
+
+    import signal
+
+    config = AppConfig()
+
+    def signal_handler(signum, frame):
+        if signum == signal.SIGHUP:  # kill -1 <pid>
+            config.reset()
+
+    signal.signal(signal.SIGHUP, signal_handler)
+
+    if __name__ == '__main__':
+        main(config)
