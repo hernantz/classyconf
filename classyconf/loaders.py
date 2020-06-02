@@ -58,7 +58,7 @@ class AbstractConfigurationLoader:
     def check(self):
         return True
 
-    def reload(self):
+    def reset(self):
         pass
 
 
@@ -148,7 +148,7 @@ class IniFile(AbstractConfigurationFileLoader):
         except NoOptionError:
             raise KeyError("{!r}".format(item))
 
-    def reload(self):
+    def reset(self):
         self._initialized = False
 
 
@@ -222,7 +222,7 @@ class EnvFile(AbstractConfigurationFileLoader):
 
         return self.configs[self.var_format(item)]
 
-    def reload(self):
+    def reset(self):
         self.configs = None
 
 
@@ -322,7 +322,7 @@ class RecursiveSearch(AbstractConfigurationLoader):
         else:
             raise KeyError("{!r}".format(item))
 
-    def reload(self):
+    def reset(self):
         self._config_files = None
 
 

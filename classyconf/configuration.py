@@ -50,16 +50,11 @@ class Configuration(object):
 
         return cast(default)
 
-    def reload(self):
-        for loader in self.loaders:
-            loader.reload()
-
-
 class Value:
     def __init__(self, key: str = None, help: str = '', default: NOT_SET = NOT_SET, cast: Callable = None):
         """
         :param key:     Name of the value used in file or environment
-                        variable. Set automatically by the GoodConf metaclass.
+                        variable. Set automatically by the metaclass.
         :param default: Default value if none is provided. If left unset,
                         loading a config that fails to provide this value
                         will raise a RequiredValueMissing exception.
@@ -162,7 +157,7 @@ class ClassyConf(metaclass=DeclarativeValuesMetaclass):
     def __getitem__(self, value):
         return self._declared_values[value].__get__(self, self.__class__)
 
-
-def reload_conf(conf):
-    """Anytime you want to pick up new values call this function."""
-    conf._config.reload()
+    def reset(self):
+        """Anytime you want to pick up new values call this function."""
+        for loader in self._loaders:
+            loader.reset()
