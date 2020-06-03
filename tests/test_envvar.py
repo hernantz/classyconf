@@ -1,6 +1,16 @@
 import os
 import pytest
-from classyconf.loaders import Environment
+from classyconf.loaders import Environment, env_prefix
+
+
+def test_env_prefix():
+    fmt = env_prefix()
+    assert fmt("test") == "TEST"
+
+
+def test_env_prefix_with_prefix():
+    fmt = env_prefix("prefix_")
+    assert fmt("test") == "prefix_TEST"
 
 
 def test_basic_config():
