@@ -12,7 +12,7 @@ introduction to what it can do for you.
 ~~~~~~~~~~~~~~~~~~~~~
 
 The simplest ways to get started with classyconf is to use the
-:py:class:`ClassyConf<classyconf.configuration.Configuration>` class, to
+:py:class:`Configuration<classyconf.configuration.Configuration>` class, to
 declare all the settings of your app.
 
 This pythonic class allows you to encapsulate all configuration
@@ -24,10 +24,10 @@ as you need.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, as_boolean
+    from classyconf import Configuration, Value, as_boolean
 
 
-    class AppConfig(ClassyConf):
+    class AppConfig(Configuration):
 
         DEBUG = Value(default=False, cast=as_boolean, help="Toggle debugging on/off.")
 
@@ -60,10 +60,10 @@ Loaders can be declared in the ``Meta`` class:
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, Environment
+    from classyconf import Configuration, Value, Environment
 
 
-    class AppConfig(ClassyConf):
+    class AppConfig(Configuration):
 
         DEBUG = Value(default=False, help="Toggle debugging on/off.")
 
@@ -141,9 +141,11 @@ Now if you access ``config.DEBUG``, classyconf will first check for
 As you know, the same code might run in several different enviroments, like
 dev, staging, prod, etc.
 
-Although ``ClassyConf`` classes can be extended to define new ``Value``
-attributes or override them, the recomended way is to simply override the
-settings sources per enviroment.
+Although :py:class:`Configuration<classyconf.configuration.Configuration>`
+classes can be extended to define new
+:py:class:`Value<classyconf.configuration.Value>` attributes or override
+them, the recomended way is to simply override the settings sources per
+enviroment.
 
 .. code-block:: python
 

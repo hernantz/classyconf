@@ -1,12 +1,12 @@
 import os
 
 import pytest
-from classyconf.configuration import ClassyConf, Value, getconf
+from classyconf.configuration import Configuration, Value, getconf
 from classyconf.exceptions import UnknownConfiguration
 from classyconf.loaders import EnvFile, Environment, IniFile
 
 
-class BasicClassyConf(ClassyConf):
+class BasicClassyConf(Configuration):
     ENVVAR = Value(help="Just a test.")
 
 

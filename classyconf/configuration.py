@@ -110,7 +110,7 @@ class DeclarativeValuesMetaclass(type):
         return OrderedDict()
 
 
-class ClassyConf(metaclass=DeclarativeValuesMetaclass):
+class Configuration(metaclass=DeclarativeValuesMetaclass):
     """
     Encapsulates settings than can be loaded from different
     sources

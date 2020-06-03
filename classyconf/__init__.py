@@ -1,5 +1,4 @@
-from .configuration import (ClassyConf, Value, as_boolean,
-                            as_is, as_list, as_tuple, as_option, evaluate,
-                            NOT_SET)
-from .casts import Boolean, List, Option, Tuple, Identity
-from .loaders import env_prefix, EnvFile, Environment, IniFile
+from .casts import Boolean, Identity, List, Option, Tuple
+from .configuration import (NOT_SET, Configuration, Value, as_boolean, as_is,
+                            as_list, as_option, as_tuple, evaluate)
+from .loaders import EnvFile, Environment, IniFile, env_prefix
