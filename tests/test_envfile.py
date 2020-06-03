@@ -64,3 +64,11 @@ def test_fail_missing_envfile_get_item():
     config = EnvFile("does-not-exist.env")
     with pytest.raises(KeyError):
         return config["error"]
+
+
+def test_reset(envfile):
+    config = EnvFile(envfile)
+    config.check()
+    assert config.configs is not None
+    config.reset()
+    assert config.configs is None

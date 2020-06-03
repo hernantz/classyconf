@@ -68,3 +68,11 @@ def test_fail_missing_envfile_get_item():
     config = IniFile("does-not-exist.ini")
     with pytest.raises(KeyError):
         return config['error']
+
+
+def test_reset(inifile):
+    config = IniFile(inifile)
+    config.check()
+    assert config._initialized
+    config.reset()
+    assert not config._initialized
