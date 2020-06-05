@@ -93,12 +93,12 @@ Command line argments have yet another conventions:
     $ ./app.py --debug=yes --another-config=10
 
 Classyconf let's you follow these aesthetics patterns by setting a
-``var_format`` function when instantiating the loaders.
+``fmt`` function when instantiating the loaders.
 
 By default, the :py:class:`Environment<prettyconf.loaders.Environment>` is
-instantiated with ``var_format=env_prefix('')`` so that it looks for
+instantiated with ``fmt=env_prefix('')`` so that it looks for
 UPPER_CASED settings. But it can be easyly tweaked to address the prefix
-issue by using ``var_format=env_prefix("MY_APP_")``, and look for
+issue by using ``fmt=env_prefix("MY_APP_")``, and look for
 MY_APP_UPPER_CASED to play nice with other env variables.
 
 .. code-block:: python
@@ -109,7 +109,7 @@ MY_APP_UPPER_CASED to play nice with other env variables.
 
         class Meta:
             loaders = [
-                Environment(var_format=env_prefix("MY_APP_")),
+                Environment(fmt=env_prefix("MY_APP_")),
                 IniFile("/etc/myapp/config.ini")
             ]
 
@@ -131,7 +131,7 @@ Environment
 
 The ``Environment`` loader gets configuration from ``os.environ``. Since it
 is a common pattern to write env variables in caps, the loader accepts a
-``var_format`` function to pre-format the variable name before the lookup
+``fmt`` function to pre-format the variable name before the lookup
 occurs. By default it is ``env_prefix("")`` which combines ``str.upper()``
 and an empty prefix.
 
@@ -151,7 +151,7 @@ and an empty prefix.
         debug = Value(default=False)
 
 
-    config = AppConf(loaders=[Environment(var_format=str.upper)])
+    config = AppConf(loaders=[Environment(fmt=str.upper)])
     config.debug  # will look for a `DEBUG` variable
 
 
@@ -177,7 +177,7 @@ doesn't exist, this loader will be skipped without raising any errors.
         debug = Value(default=False)
 
 
-    config = AppConf(loaders=[EnvFile(file='.env', var_format=str.upper)])
+    config = AppConf(loaders=[EnvFile(file='.env', fmt=str.upper)])
     config.debug  # will look for a `DEBUG` variable instead of `debug`
 
 

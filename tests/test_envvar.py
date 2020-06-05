@@ -19,7 +19,7 @@ def test_basic_config():
 
     assert "TEST" in config
     assert "test" == config["TEST"]
-    assert repr(config).startswith('Environment(var_format=')
+    assert repr(config).startswith('Environment(fmt=')
 
     del os.environ["TEST"]
 
@@ -32,7 +32,7 @@ def test_fail_missing_config():
         _ = config["UNKNOWN"]
 
 
-def test_default_var_format():
+def test_default_fmt():
     os.environ["TEST"] = "test"
     config = Environment()
 
@@ -42,12 +42,12 @@ def test_default_var_format():
     del os.environ["TEST"]
 
 
-def test_custom_var_format():
+def test_custom_fmt():
     def formatter(x):
         return '_{}'.format(x)
 
     os.environ["_TEST"] = "test"
-    config = Environment(var_format=formatter)
+    config = Environment(fmt=formatter)
 
     assert "TEST" in config
     assert "test" == config["TEST"]

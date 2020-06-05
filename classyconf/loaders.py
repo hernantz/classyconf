@@ -95,15 +95,15 @@ class CommandLine(AbstractConfigurationLoader):
 class IniFile(AbstractConfigurationFileLoader):
     file_extensions = ("*.ini", "*.cfg")
 
-    def __init__(self, filename, section="settings", var_format=lambda x: x):
+    def __init__(self, filename, section="settings", fmt=lambda x: x):
         """
         :param str filename: Path to the ``.ini/.cfg`` file.
         :param str section: Section name inside the config file.
-        :param function var_format: A function to pre-format variable names.
+        :param function fmt: A function to pre-format variable names.
         """
         self.filename = filename
         self.section = section
-        self.var_format = var_format
+        self.fmt = fmt
         self.parser = ConfigParser(allow_no_value=True)
         self._initialized = False
 
@@ -137,14 +137,14 @@ class IniFile(AbstractConfigurationFileLoader):
         if not self.check():
             return False
 
-        return self.parser.has_option(self.section, self.var_format(item))
+        return self.parser.has_option(self.section, self.fmt(item))
 
     def __getitem__(self, item):
         if not self.check():
             raise KeyError("{!r}".format(item))
 
         try:
-            return self.parser.get(self.section, self.var_format(item))
+            return self.parser.get(self.section, self.fmt(item))
         except NoOptionError:
             raise KeyError("{!r}".format(item))
 
@@ -157,35 +157,35 @@ class Environment(AbstractConfigurationLoader):
     Get's configuration from the environment, by inspecting ``os.environ``.
     """
 
-    def __init__(self, var_format=env_prefix('')):
+    def __init__(self, fmt=env_prefix('')):
         """
-        :param function var_format: A function to pre-format variable names.
+        :param function fmt: A function to pre-format variable names.
         """
-        self.var_format = var_format
+        self.fmt = fmt
 
     def __repr__(self):
-        return "{}(var_format={})".format(self.__class__.__name__,
-                                          self.var_format)
+        return "{}(fmt={})".format(self.__class__.__name__,
+                                          self.fmt)
 
     def __contains__(self, item):
-        return self.var_format(item) in os.environ
+        return self.fmt(item) in os.environ
 
     def __getitem__(self, item):
         # Uses `os.environ` because it raises an exception if the environmental
         # variable does not exist, whilst `os.getenv` doesn't.
-        return os.environ[self.var_format(item)]
+        return os.environ[self.fmt(item)]
 
 
 class EnvFile(AbstractConfigurationFileLoader):
     file_extensions = (".env",)
 
-    def __init__(self, filename=".env", var_format=env_prefix('')):
+    def __init__(self, filename=".env", fmt=env_prefix('')):
         """
         :param str filename: Path to the ``.env`` file.
-        :param function var_format: A function to pre-format variable names.
+        :param function fmt: A function to pre-format variable names.
         """
         self.filename = filename
-        self.var_format = var_format
+        self.fmt = fmt
         self.configs = None
 
     def __repr__(self):
@@ -214,13 +214,13 @@ class EnvFile(AbstractConfigurationFileLoader):
         if not self.check():
             return False
 
-        return self.var_format(item) in self.configs
+        return self.fmt(item) in self.configs
 
     def __getitem__(self, item):
         if not self.check():
             raise KeyError("{!r}".format(item))
 
-        return self.configs[self.var_format(item)]
+        return self.configs[self.fmt(item)]
 
     def reset(self):
         self.configs = None

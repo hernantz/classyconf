@@ -38,18 +38,18 @@ def test_missing_invalid_keys_in_config_file_parsing(envfile):
     assert "OTHER_INVALID_KEY" not in config
 
 
-def test_default_var_format(envfile):
+def test_default_fmt(envfile):
     config = EnvFile(envfile)
 
     assert "key" in config
     assert "Value" == config["key"]
 
 
-def test_custom_var_format(envfile):
+def test_custom_fmt(envfile):
     def formatter(x):
         return "_{}".format(str.lower(x))
 
-    config = EnvFile(envfile, var_format=formatter)
+    config = EnvFile(envfile, fmt=formatter)
 
     assert "VAR" in config
     assert "test" == config["VAR"]
