@@ -377,9 +377,10 @@ that it has to keep looking down the loaders chain for a specific config.
 
 
     class YamlFile(AbstractConfigurationLoader):
-        def __init__(self, filename):
+        def __init__(self, filename, fmt=lambda x: x):
             self.filename = filename
             self.config = None
+            self.fmt = fmt
 
         def _parse(self):
             if self.config is not None:
@@ -393,7 +394,7 @@ that it has to keep looking down the loaders chain for a specific config.
             except:
                 return False
 
-            return item in self.config
+            return self.fmt(item) in self.config
 
         def __getitem__(self, item):
             try:
@@ -402,7 +403,7 @@ that it has to keep looking down the loaders chain for a specific config.
                 # KeyError tells classyconf to keep looking elsewhere!
                 raise KeyError("{!r}".format(item))
 
-            return self.config[item]
+            return self.config[self.fmt(item)]
 
         def reset(self):
             self.config = None
