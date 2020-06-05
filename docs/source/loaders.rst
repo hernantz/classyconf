@@ -404,7 +404,7 @@ that it has to keep looking down the loaders chain for a specific config.
 
             return self.config[item]
 
-        def reload(self):
+        def reset(self):
             self.config = None
 
 

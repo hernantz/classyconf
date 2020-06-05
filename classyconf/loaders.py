@@ -20,7 +20,7 @@ class NotSet(str):
 NOT_SET = NotSet()
 
 
-def env_prefix(prefix=''):
+def env_prefix(prefix=""):
     """
     Since the environment is a global dictionary, it is a good practice to
     namespace your settings by using a unique prefix like ``MY_APP_``.
@@ -62,11 +62,6 @@ class AbstractConfigurationLoader:
         pass
 
 
-# noinspection PyAbstractClass
-class AbstractConfigurationFileLoader(AbstractConfigurationLoader):
-    file_filters = ()
-
-
 class CommandLine(AbstractConfigurationLoader):
     """
     Extract configuration from an ``argparse`` parser.
@@ -92,8 +87,7 @@ class CommandLine(AbstractConfigurationLoader):
         return self.configs[item]
 
 
-class IniFile(AbstractConfigurationFileLoader):
-    file_extensions = ("*.ini", "*.cfg")
+class IniFile(AbstractConfigurationLoader):
 
     def __init__(self, filename, section="settings", fmt=lambda x: x):
         """
@@ -157,15 +151,14 @@ class Environment(AbstractConfigurationLoader):
     Get's configuration from the environment, by inspecting ``os.environ``.
     """
 
-    def __init__(self, fmt=env_prefix('')):
+    def __init__(self, fmt=env_prefix()):
         """
         :param function fmt: A function to pre-format variable names.
         """
         self.fmt = fmt
 
     def __repr__(self):
-        return "{}(fmt={})".format(self.__class__.__name__,
-                                          self.fmt)
+        return "{}(fmt={})".format(self.__class__.__name__, self.fmt)
 
     def __contains__(self, item):
         return self.fmt(item) in os.environ
@@ -176,10 +169,9 @@ class Environment(AbstractConfigurationLoader):
         return os.environ[self.fmt(item)]
 
 
-class EnvFile(AbstractConfigurationFileLoader):
-    file_extensions = (".env",)
+class EnvFile(AbstractConfigurationLoader):
 
-    def __init__(self, filename=".env", fmt=env_prefix('')):
+    def __init__(self, filename=".env", fmt=env_prefix()):
         """
         :param str filename: Path to the ``.env`` file.
         :param function fmt: A function to pre-format variable names.
