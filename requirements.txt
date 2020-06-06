@@ -6,3 +6,4 @@ flake8
 Sphinx
 sphinx-rtd-theme
 twine
+black
