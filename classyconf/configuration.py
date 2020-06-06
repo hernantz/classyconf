@@ -50,7 +50,13 @@ def getconf(item, default=NOT_SET, cast=None, loaders=None):
 
 
 class Value:
-    def __init__(self, key: str = None, help: str = '', default: NOT_SET = NOT_SET, cast: Callable = None):
+    def __init__(
+        self,
+        key: str = None,
+        help: str = "",
+        default: NOT_SET = NOT_SET,
+        cast: Callable = None,
+    ):
         """
         :param key:     Name of the value used in file or environment
                         variable. Set automatically by the metaclass.
@@ -70,11 +76,18 @@ class Value:
 
     def __get__(self, instance, owner):
         if instance:
-            return getconf(self.key, default=self.default, cast=self.cast, loaders=instance._loaders)
+            return getconf(
+                self.key,
+                default=self.default,
+                cast=self.cast,
+                loaders=instance._loaders,
+            )
         return self
 
     def __repr__(self):
-        return '{}(key="{}", help="{}")'.format(self.__class__.__name__, self.key, self.help)
+        return '{}(key="{}", help="{}")'.format(
+            self.__class__.__name__, self.key, self.help
+        )
 
 
 class DeclarativeValuesMetaclass(type):
@@ -95,14 +108,16 @@ class DeclarativeValuesMetaclass(type):
             if isinstance(value, Value):
                 if value.key and key != value.key:
                     raise AttributeError(
-                        "Don't explicitly set keys when declaring values")
+                        "Don't explicitly set keys when declaring values"
+                    )
                 value.key = key
                 values.update({key: value})
 
         attrs["_declared_values"] = values
 
         return super(DeclarativeValuesMetaclass, self).__new__(
-            self, class_name, bases, attrs)
+            self, class_name, bases, attrs
+        )
 
     @classmethod
     def __prepare__(metacls, name, bases, **kwds):
@@ -115,6 +130,7 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
     Encapsulates settings than can be loaded from different
     sources
     """
+
     class Meta:
         loaders = None
 
@@ -131,8 +147,9 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
 
     def __repr__(self):
         return "{}(loaders=[{}])".format(
-            self.__class__.__name__, ", ".join(
-                [str(loader) for loader in self._loaders]))
+            self.__class__.__name__,
+            ", ".join([str(loader) for loader in self._loaders]),
+        )
 
     def __str__(self):
         values = []
@@ -144,7 +161,9 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
             else:
                 help = v.help
             try:
-                values.append("{}={} - {}".format(v.key, repr(getattr(self, v.key)), help))
+                values.append(
+                    "{}={} - {}".format(v.key, repr(getattr(self, v.key)), help)
+                )
             except UnknownConfiguration:
                 values.append("{}=NOT_SET - {}".format(v.key, help))
         return "\n".join(values)

@@ -9,8 +9,18 @@ class AbstractCast(object):
 
 class Boolean(AbstractCast):
     default_values = {
-        "1": True, "true": True, "yes": True, "y": True, "on": True, "t": True,
-        "0": False, "false": False, "no": False, "n": False, "off": False, "f": False
+        "1": True,
+        "true": True,
+        "yes": True,
+        "y": True,
+        "on": True,
+        "t": True,
+        "0": False,
+        "false": False,
+        "no": False,
+        "n": False,
+        "off": False,
+        "f": False,
     }
 
     def __init__(self, values=None):
@@ -22,7 +32,9 @@ class Boolean(AbstractCast):
         try:
             return self.values[str(value).lower()]
         except KeyError:
-            raise InvalidConfiguration("Error casting value {!r} to boolean".format(value))
+            raise InvalidConfiguration(
+                "Error casting value {!r} to boolean".format(value)
+            )
 
 
 class List(AbstractCast):
@@ -100,6 +112,7 @@ class Identity(AbstractCast):
     """
     This is basically the no-op cast
     """
+
     def __call__(self, value):
         return value
 

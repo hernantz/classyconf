@@ -14,6 +14,7 @@ class NotSet(str):
     CLI parsers force you to set a default value, and thus, break the discovery
     chain.
     """
+
     pass
 
 
@@ -25,6 +26,7 @@ def env_prefix(prefix=""):
     Since the environment is a global dictionary, it is a good practice to
     namespace your settings by using a unique prefix like ``MY_APP_``.
     """
+
     def _env_prefix(value):
         return "{}{}".format(prefix, value.upper())
 
@@ -88,7 +90,6 @@ class CommandLine(AbstractConfigurationLoader):
 
 
 class IniFile(AbstractConfigurationLoader):
-
     def __init__(self, filename, section="settings", keyfmt=lambda x: x):
         """
         :param str filename: Path to the ``.ini/.cfg`` file.
@@ -115,7 +116,9 @@ class IniFile(AbstractConfigurationLoader):
                 raise InvalidConfigurationFile()
 
         if not self.parser.has_section(self.section):
-            raise MissingSettingsSection("Missing [{}] section in {}".format(self.section, self.filename))
+            raise MissingSettingsSection(
+                "Missing [{}] section in {}".format(self.section, self.filename)
+            )
 
         self._initialized = True
 
@@ -170,7 +173,6 @@ class Environment(AbstractConfigurationLoader):
 
 
 class EnvFile(AbstractConfigurationLoader):
-
     def __init__(self, filename=".env", keyfmt=env_prefix()):
         """
         :param str filename: Path to the ``.env`` file.
@@ -219,7 +221,12 @@ class EnvFile(AbstractConfigurationLoader):
 
 
 class RecursiveSearch(AbstractConfigurationLoader):
-    def __init__(self, starting_path=None, filetypes=((".env", EnvFile), (("*.ini", "*.cfg"), IniFile)), root_path="/"):
+    def __init__(
+        self,
+        starting_path=None,
+        filetypes=((".env", EnvFile), (("*.ini", "*.cfg"), IniFile)),
+        root_path="/",
+    ):
         """
         :param str starting_path: The path to begin looking for configuration files.
         :param tuple filetypes: tuple of tuples with configuration loaders, order matters.
@@ -297,7 +304,9 @@ class RecursiveSearch(AbstractConfigurationLoader):
         return self._config_files
 
     def __repr__(self):
-        return "{}(starting_path={})".format(self.__class__.__name__, self.starting_path)
+        return "{}(starting_path={})".format(
+            self.__class__.__name__, self.starting_path
+        )
 
     def __contains__(self, item):
         for config_file in self.config_files:
