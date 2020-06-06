@@ -5,7 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
 
-![carbon(1)](https://user-images.githubusercontent.com/613512/83956322-2e314200-a833-11ea-8a60-62f95891a06c.png)
+![carbon(2)](https://user-images.githubusercontent.com/613512/83956588-258e3b00-a836-11ea-9599-3a0a0d6c2c61.png)
+
 
 
 ClassyConf is an extensible library for settings & code separation.
@@ -24,17 +25,18 @@ Here is a preview of how to use it. You can find out more documentation at
 [Read the Docs](https://classyconf.readthedocs.io/en/latest/index.html) website.
 
 ```python
-from classyconf import Configuration, Value, EnvFile, IniFile
+from classyconf import Configuration, Value, Environment, IniFile, as_boolean, env_prefix
 
 class AppConfig(Configuration):
     """Configuration for My App"""
     class Meta:
-        loaders = [EnvFile(".env"), IniFile("/etc/conf.ini/")]
+        loaders = [
+            Environment(keyfmt=env_prefix("MY_APP_")),
+            IniFile("/etc/app/conf.ini", section="myapp")
+        ]
 
-    DEBUG = Value(default=False, help="Toggle debugging.")
-    DATABASE_URL = Value(
-        default="postgres://localhost:5432/mydb",
-        help="Database connection.")
+    DEBUG = Value(default=False, cast=as_boolean, help="Toggle debugging mode.")
+    DATABASE_URL = Value(default="postgres://localhost:5432/mydb", help="Database connection.")
 ```
 
 Later this object can be used to print settings
