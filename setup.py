@@ -48,6 +48,9 @@ setup(
         'Topic :: Software Development :: Libraries',
     ],
     url='http://github.com/hernantz/classyconf',
+    project_urls={
+        "Documentation": "https://classyconf.readthedocs.io/en/latest/"
+    },
     download_url='https://github.com/hernantz/classyconf/tarball/{}'.format(version),
     cmdclass={'version': VersionCommand},
     test_suite="tests",
