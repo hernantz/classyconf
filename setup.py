@@ -27,6 +27,7 @@ setup(
     version=version,
     description='Extensible library for separation of settings from code.',
     long_description=readme(),
+    long_description_content_type='text/markdown',
     author="Hernan Lozano", author_email="hernantz@gmail.com",
     license="MIT",
     packages=['classyconf'],
