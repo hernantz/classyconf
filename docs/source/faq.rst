@@ -43,6 +43,7 @@ Although `prettyconf` is great and very flexible, I don't like that the
 `config("debug")` call isn't lazy, so putting it into a class isn't enough:
 
 .. code-block:: python
+
   from prettyconf import config
 
   class MyConfig():
