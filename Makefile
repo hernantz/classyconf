@@ -2,7 +2,7 @@ test:
 	python setup.py pytest
 
 lint:
-	flake8 classyconf tests
+	black classyconf/ tests/
 
 clean:
 	-find . -iname "*.py[ocd]" -delete
