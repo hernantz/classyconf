@@ -1,11 +1,8 @@
 import os
-import re
 
 from setuptools import setup, Command
 
-here = os.path.abspath(os.path.dirname(__file__))
-
-version = "0.0.0"
+version = "0.1.0"
 
 def readme():
     with open("README.md") as r:
