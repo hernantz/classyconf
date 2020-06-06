@@ -5,28 +5,12 @@ sudo: false
 matrix:
   include:
     - os: linux
-      python: 3.5
-    - os: linux
-      python: 3.6
-    - os: linux
       dist: xenial
       python: 3.7
     - os: linux
       python: 3.8
     - os: linux
       python: pypy3
-    - os: osx
-      language: generic
-      env:
-      - PYTHON_VERSION=3.5.6
-      - PYENV_ROOT=~/.pyenv
-      - PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-    - os: osx
-      language: generic
-      env:
-      - PYTHON_VERSION=3.6.8
-      - PYENV_ROOT=~/.pyenv
-      - PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
     - os: osx
       language: generic
       env:
