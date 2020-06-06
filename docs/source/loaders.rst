@@ -93,12 +93,12 @@ Command line argments have yet another conventions:
     $ ./app.py --debug=yes --another-config=10
 
 Classyconf let's you follow these aesthetics patterns by setting a
-``fmt`` function when instantiating the loaders.
+``keyfmt`` function when instantiating the loaders.
 
 By default, the :py:class:`Environment<prettyconf.loaders.Environment>` is
-instantiated with ``fmt=env_prefix('')`` so that it looks for
+instantiated with ``keyfmt=env_prefix('')`` so that it looks for
 UPPER_CASED settings. But it can be easyly tweaked to address the prefix
-issue by using ``fmt=env_prefix("MY_APP_")``, and look for
+issue by using ``keyfmt=env_prefix("MY_APP_")``, and look for
 MY_APP_UPPER_CASED to play nice with other env variables.
 
 .. code-block:: python
@@ -109,7 +109,7 @@ MY_APP_UPPER_CASED to play nice with other env variables.
 
         class Meta:
             loaders = [
-                Environment(fmt=env_prefix("MY_APP_")),
+                Environment(keyfmt=env_prefix("MY_APP_")),
                 IniFile("/etc/myapp/config.ini")
             ]
 
@@ -131,7 +131,7 @@ Environment
 
 The ``Environment`` loader gets configuration from ``os.environ``. Since it
 is a common pattern to write env variables in caps, the loader accepts a
-``fmt`` function to pre-format the variable name before the lookup
+``keyfmt`` function to pre-format the variable name before the lookup
 occurs. By default it is ``env_prefix("")`` which combines ``str.upper()``
 and an empty prefix.
 
@@ -151,7 +151,7 @@ and an empty prefix.
         debug = Value(default=False)
 
 
-    config = AppConf(loaders=[Environment(fmt=str.upper)])
+    config = AppConf(loaders=[Environment(keyfmt=str.upper)])
     config.debug  # will look for a `DEBUG` variable
 
 
@@ -177,7 +177,7 @@ doesn't exist, this loader will be skipped without raising any errors.
         debug = Value(default=False)
 
 
-    config = AppConf(loaders=[EnvFile(file='.env', fmt=str.upper)])
+    config = AppConf(loaders=[EnvFile(file='.env', keyfmt=str.upper)])
     config.debug  # will look for a `DEBUG` variable instead of `debug`
 
 
@@ -377,10 +377,10 @@ that it has to keep looking down the loaders chain for a specific config.
 
 
     class YamlFile(AbstractConfigurationLoader):
-        def __init__(self, filename, fmt=lambda x: x):
+        def __init__(self, filename, keyfmt=str.lower):
             self.filename = filename
             self.config = None
-            self.fmt = fmt
+            self.keyfmt = keyfmt
 
         def _parse(self):
             if self.config is not None:
@@ -394,7 +394,7 @@ that it has to keep looking down the loaders chain for a specific config.
             except:
                 return False
 
-            return self.fmt(item) in self.config
+            return self.keyfmt(item) in self.config
 
         def __getitem__(self, item):
             try:
@@ -403,7 +403,7 @@ that it has to keep looking down the loaders chain for a specific config.
                 # KeyError tells classyconf to keep looking elsewhere!
                 raise KeyError("{!r}".format(item))
 
-            return self.config[self.fmt(item)]
+            return self.config[self.keyfmt(item)]
 
         def reset(self):
             self.config = None

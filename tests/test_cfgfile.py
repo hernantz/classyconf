@@ -42,18 +42,18 @@ def test_skip_invalid_ini_file(files_path):
         return config['some_value']
 
 
-def test_default_fmt(inifile):
+def test_default_keyfmt(inifile):
     config = IniFile(inifile)
 
     assert "_var" in config
     assert "test" == config["_var"]
 
 
-def test_custom_fmt(inifile):
+def test_custom_keyfmt(inifile):
     def formatter(x):
         return '_{}'.format(str.lower(x))
 
-    config = IniFile(inifile, fmt=formatter)
+    config = IniFile(inifile, keyfmt=formatter)
 
     assert "VAR" in config
     assert "test" == config["VAR"]

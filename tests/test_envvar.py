@@ -4,13 +4,13 @@ from classyconf.loaders import Environment, env_prefix
 
 
 def test_env_prefix():
-    fmt = env_prefix()
-    assert fmt("test") == "TEST"
+    keyfmt = env_prefix()
+    assert keyfmt("test") == "TEST"
 
 
 def test_env_prefix_with_prefix():
-    fmt = env_prefix("prefix_")
-    assert fmt("test") == "prefix_TEST"
+    keyfmt = env_prefix("prefix_")
+    assert keyfmt("test") == "prefix_TEST"
 
 
 def test_basic_config():
@@ -19,7 +19,7 @@ def test_basic_config():
 
     assert "TEST" in config
     assert "test" == config["TEST"]
-    assert repr(config).startswith('Environment(fmt=')
+    assert repr(config).startswith('Environment(keyfmt=')
 
     del os.environ["TEST"]
 
@@ -32,7 +32,7 @@ def test_fail_missing_config():
         _ = config["UNKNOWN"]
 
 
-def test_default_fmt():
+def test_default_keyfmt():
     os.environ["TEST"] = "test"
     config = Environment()
 
@@ -42,12 +42,12 @@ def test_default_fmt():
     del os.environ["TEST"]
 
 
-def test_custom_fmt():
+def test_custom_keyfmt():
     def formatter(x):
         return '_{}'.format(x)
 
     os.environ["_TEST"] = "test"
-    config = Environment(fmt=formatter)
+    config = Environment(keyfmt=formatter)
 
     assert "TEST" in config
     assert "test" == config["TEST"]

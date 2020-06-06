@@ -111,7 +111,7 @@ conventions for diffent configuration formats. Is it ``camelCase`` for
 `.json` files? Is it ``UPPER_CASE`` for the enviroment variables and
 ``lower_case`` for `.ini` files? Don't worry, classyconf has your back.
 
-Most loaders include a ``fmt`` callable argument. This allows you
+Most loaders include a ``keyfmt`` callable argument. This allows you
 to alter the name of the setting for each individual loader.
 
 Let's customize this:
@@ -120,8 +120,8 @@ Let's customize this:
 
     >>> from classyconf import env_prefix
     >>> config = AppConfig(loaders=[
-    ...    Environment(fmt=env_prefix("MY_APP_")),
-    ...    IniFile("/etc/myapp/conf.ini", section="settings", fmt=str.lower)
+    ...    Environment(keyfmt=env_prefix("MY_APP_")),
+    ...    IniFile("/etc/myapp/conf.ini", section="settings", keyfmt=str.lower)
     ... ])
 
 Now if you access ``config.DEBUG``, classyconf will first check for
@@ -129,7 +129,7 @@ Now if you access ``config.DEBUG``, classyconf will first check for
 ``.ini`` file.
 
 .. seealso::
-    The rationale for ``fmt`` is to follow the best practices for
+    The rationale for ``keyfmt`` is to follow the best practices for
     naming variables, and respecting namespaces for each source of config.
 
     Read more at :ref:`variable-naming`.
