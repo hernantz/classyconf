@@ -1,5 +1,7 @@
 # ClassyConf
 
+![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
+
 ClassyConf is an extensible library for settings & code separation.
 
 It was born as a wrapper around
