@@ -23,7 +23,10 @@ def test_config_file_parsing(envfile):
     assert config["SINGLE_QUOTE_SPACE"] == " text"
     assert config["DOUBLE_QUOTE_SPACE"] == " text"
     assert config["UPDATED"] == "text"
-    assert config["CACHE_URL_QUOTES"] == "cache+memcached://foo:bar@localhost:11211/?n=1&x=2,5"
+    assert (
+        config["CACHE_URL_QUOTES"]
+        == "cache+memcached://foo:bar@localhost:11211/?n=1&x=2,5"
+    )
     assert config["CACHE_URL"] == "cache+memcached://foo:bar@localhost:11211/?n=1&x=2,5"
     assert config["DOUBLE_QUOTE_INSIDE_QUOTE"] == 'foo "bar" baz'
     assert config["SINGLE_QUOTE_INSIDE_QUOTE"] == "foo 'bar' baz"

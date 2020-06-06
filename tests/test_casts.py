@@ -4,38 +4,41 @@ from classyconf.casts import Boolean, List, Option, Tuple, evaluate
 from classyconf.exceptions import InvalidConfiguration
 
 
-@pytest.mark.parametrize("value,result", [
-    (1, True),
-    ("1", True),
-    ("true", True),
-    ("True", True),
-    ("TrUE", True),
-    ("TRUE", True),
-    ("yes", True),
-    ("YES", True),
-    ("Yes", True),
-    ("on", True),
-    ("ON", True),
-    ("On", True),
-    ("t", True),
-    (True, True),
-    (0, False),
-    ("0", False),
-    ("false", False),
-    ("False", False),
-    ("FalSE", False),
-    ("FALSE", False),
-    ("no", False),
-    ("No", False),
-    ("NO", False),
-    ("nO", False),
-    ("off", False),
-    ("Off", False),
-    ("OFF", False),
-    ("OfF", False),
-    ("f", False),
-    (False, False),
-])
+@pytest.mark.parametrize(
+    "value,result",
+    [
+        (1, True),
+        ("1", True),
+        ("true", True),
+        ("True", True),
+        ("TrUE", True),
+        ("TRUE", True),
+        ("yes", True),
+        ("YES", True),
+        ("Yes", True),
+        ("on", True),
+        ("ON", True),
+        ("On", True),
+        ("t", True),
+        (True, True),
+        (0, False),
+        ("0", False),
+        ("false", False),
+        ("False", False),
+        ("FalSE", False),
+        ("FALSE", False),
+        ("no", False),
+        ("No", False),
+        ("NO", False),
+        ("nO", False),
+        ("off", False),
+        ("Off", False),
+        ("OFF", False),
+        ("OfF", False),
+        ("f", False),
+        (False, False),
+    ],
+)
 def test_basic_boolean_cast_values(value, result):
     boolean = Boolean()
     assert boolean(value) is result
@@ -64,8 +67,16 @@ def test_basic_list_cast():
     assert list_cast("foo, bar") == ["foo", "bar"]
     assert list_cast(" foo , bar ") == ["foo", "bar"]
     assert list_cast(" foo ,, bar ") == ["foo", "", "bar"]
-    assert list_cast("foo, 'bar, baz', qux # doo ") == ["foo", "'bar, baz'", "qux # doo"]
-    assert list_cast("foo, '\"bar\", baz  ', qux # doo ") == ["foo", "'\"bar\", baz  '", "qux # doo"]
+    assert list_cast("foo, 'bar, baz', qux # doo ") == [
+        "foo",
+        "'bar, baz'",
+        "qux # doo",
+    ]
+    assert list_cast("foo, '\"bar\", baz  ', qux # doo ") == [
+        "foo",
+        "'\"bar\", baz  '",
+        "qux # doo",
+    ]
 
 
 def test_basic_tuple_cast():
@@ -75,14 +86,22 @@ def test_basic_tuple_cast():
     assert tuple_cast("foo, bar") == ("foo", "bar")
     assert tuple_cast(" foo , bar ") == ("foo", "bar")
     assert tuple_cast(" foo ,, bar ") == ("foo", "", "bar")
-    assert tuple_cast("foo, 'bar, baz', qux # doo ") == ("foo", "'bar, baz'", "qux # doo")
-    assert tuple_cast("foo, '\"bar\", baz  ', qux # doo ") == ("foo", "'\"bar\", baz  '", "qux # doo")
+    assert tuple_cast("foo, 'bar, baz', qux # doo ") == (
+        "foo",
+        "'bar, baz'",
+        "qux # doo",
+    )
+    assert tuple_cast("foo, '\"bar\", baz  ', qux # doo ") == (
+        "foo",
+        "'\"bar\", baz  '",
+        "qux # doo",
+    )
 
 
 def test_options():
     choices = {
-        'option1': "asd",
-        'option2': "def",
+        "option1": "asd",
+        "option2": "def",
     }
     option = Option(choices)
 
@@ -92,8 +111,8 @@ def test_options():
 
 def test_fail_invalid_option_config():
     choices = {
-        'option1': "asd",
-        'option2': "def",
+        "option1": "asd",
+        "option2": "def",
     }
     option = Option(choices)
 

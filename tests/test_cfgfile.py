@@ -11,7 +11,7 @@ def test_basic_config_object(inifile):
 
 def test_fail_no_settings_section_in_ini_file(files_path):
     with pytest.raises(KeyError):
-        return IniFile(files_path + "/invalid_section.ini")['some_value']
+        return IniFile(files_path + "/invalid_section.ini")["some_value"]
 
 
 def test_config_file_parsing(inifile):
@@ -32,14 +32,14 @@ def test_config_file_parsing(inifile):
 
 def test_skip_missing_key(inifile):
     with pytest.raises(KeyError):
-        return IniFile(inifile)['some_value']
+        return IniFile(inifile)["some_value"]
 
 
 def test_skip_invalid_ini_file(files_path):
     config = IniFile(files_path + "/invalid_chars.cfg")
 
     with pytest.raises(KeyError):
-        return config['some_value']
+        return config["some_value"]
 
 
 def test_default_keyfmt(inifile):
@@ -51,7 +51,7 @@ def test_default_keyfmt(inifile):
 
 def test_custom_keyfmt(inifile):
     def formatter(x):
-        return '_{}'.format(str.lower(x))
+        return "_{}".format(str.lower(x))
 
     config = IniFile(inifile, keyfmt=formatter)
 
@@ -61,13 +61,13 @@ def test_custom_keyfmt(inifile):
 
 def test_fail_missing_envfile_contains():
     config = IniFile("does-not-exist.ini")
-    assert 'error' not in config
+    assert "error" not in config
 
 
 def test_fail_missing_envfile_get_item():
     config = IniFile("does-not-exist.ini")
     with pytest.raises(KeyError):
-        return config['error']
+        return config["error"]
 
 
 def test_reset(inifile):

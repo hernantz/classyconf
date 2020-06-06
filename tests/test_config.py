@@ -34,7 +34,7 @@ def test_child_instantiation_extends_loaders(env_config):
 
 
 def test_value_repr():
-    assert repr(BasicClassyConf.ENVVAR) == "Value(key=\"ENVVAR\", help=\"Just a test.\")"
+    assert repr(BasicClassyConf.ENVVAR) == 'Value(key="ENVVAR", help="Just a test.")'
 
 
 def test_child_meta_extends_loaders():
@@ -67,7 +67,10 @@ def test_customized_loaders(env_config, ini_config):
 
 
 def test_config_default_values():
-    assert getconf("DEFAULT", default="Default Value", loaders=[Environment()]) == "Default Value"
+    assert (
+        getconf("DEFAULT", default="Default Value", loaders=[Environment()])
+        == "Default Value"
+    )
 
 
 def test_config_cast_value():

@@ -19,7 +19,7 @@ def test_basic_config():
 
     assert "TEST" in config
     assert "test" == config["TEST"]
-    assert repr(config).startswith('Environment(keyfmt=')
+    assert repr(config).startswith("Environment(keyfmt=")
 
     del os.environ["TEST"]
 
@@ -44,7 +44,7 @@ def test_default_keyfmt():
 
 def test_custom_keyfmt():
     def formatter(x):
-        return '_{}'.format(x)
+        return "_{}".format(x)
 
     os.environ["_TEST"] = "test"
     config = Environment(keyfmt=formatter)

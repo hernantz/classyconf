@@ -11,7 +11,7 @@ def test_basic_config_object(inifile):
 
 def test_skip_missing_key(inifile):
     with pytest.raises(KeyError):
-        return Dict({})['some_value']
+        return Dict({})["some_value"]
 
 
 def test_config_file_parsing(inifile):
