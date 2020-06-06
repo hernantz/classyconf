@@ -1,6 +1,7 @@
 # ClassyConf
 
 ![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
+[![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
 ClassyConf is an extensible library for settings & code separation.
 
