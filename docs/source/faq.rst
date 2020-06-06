@@ -36,58 +36,29 @@ or GUI applications.
 .. _`Flask`: http://flask.pocoo.org/
 
 
-What is the difference between prettyconf and python-decouple_?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-There is no subtantial difference between both libraries. ``prettyconf`` is
-highly inspired in ``python-decouple`` and provides almost the same API.
-
-The implementation of ``prettyconf`` is more extensible and flexible to make
-behaviour configurations easier.
-
-You can use any of them. Both are good libraries and provides a similar set of
-features.
-
-.. _`python-decouple`: https://github.com/henriquebastos/python-decouple
-
-
-Why you created a library similar to python-decouple instead of use it?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-I made some_ contributions_ for python-decouple_ previously, but I needed
-to change its behaviour as described above and this change is backward
-incompatible, so, it could break software that relies on the old behaviour.
-Besides that it's hard to make this change on ``python-decouple`` due to
-the way it's implemented.
-
-See the lookup order of configurations below
-
-+---------------+------------------+------------------------+-------------------------+
-| Lookup Order  | prettyconf       | python-decouple (<3.0) | python-decouple (>=3.0) |
-+===============+==================+========================+=========================+
-| 1             | ENVVAR           | .env                   | ENVVAR                  |
-+---------------+------------------+------------------------+-------------------------+
-| 2             | .env             | settings.ini           | .env                    |
-+---------------+------------------+------------------------+-------------------------+
-| 3             | \*.cfg or \*.ini | ENVVAR                 | settings.ini            |
-+---------------+------------------+------------------------+-------------------------+
-
-.. _some: https://github.com/henriquebastos/python-decouple/pull/4
-.. _contributions: https://github.com/henriquebastos/python-decouple/pull/5
-
-
 Why create a library similar to prettyconf or goodconf instead of using it?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Although `prettyconf` is great and very flexible, I don't like that the
 `config("debug")` call isn't lazy, so putting it into a class isn't enough:
 
-```python
-class MyConfig():
-    debug = config("debug")   # this is evaluated when this module is loaded
-```
-It's not easy to redefine the loaders for the settings, for example, read the
-test settings from `test.ini` and the normal settings from `base.ini`.
+.. code-block:: python
+  from prettyconf import config
+
+  class MyConfig():
+      debug = config("debug")   # this is evaluated when this module is loaded
+
+I also didn't like the default `RecursiveSearch` that it provides and I also
+needed to implement many changes and move fast to see what would work.
+
+I've made several `contributions`_ to `prettyconf` but I needed to change its
+behaviour, break things and move fast. This is backward incompatible, so, it
+could break software that relies on the old behaviour.
+
+You can use any of them. Both are good libraries and provides a similar set of
+features.
+
+.. _contributions: https://github.com/osantana/prettyconf/pulls?q=is%3Apr+author%3Ahernantz+is%3Aclosed
 
 
 How does classyconf compare to python-dotenv_?
