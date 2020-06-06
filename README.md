@@ -1,6 +1,6 @@
 # ClassyConf
 
-![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
+![PyPI](https://img.shields.io/pypi/v/classyconf?style=plastic)
 [![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
 
@@ -69,11 +69,21 @@ class DevConfig(AppConfig):
         loaders = [IniFile("test_settings.ini")]
 ```
 
+overridden at runtime
+
+```python
+>>> dev_config = AppConfig(loaders=[IniFile("test_settings.ini")])
+>>> dev_config.DEBUG
+True
+```
+
 accessed as dict or object
 
 ```python
-config.DEBUG
-config["DEBUG"]
+>>> config.DEBUG
+False
+>>> config["DEBUG"]
+False
 ```
 
 or passed around
