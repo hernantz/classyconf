@@ -1,6 +1,7 @@
 # ClassyConf
 
-![PyPI](https://img.shields.io/pypi/v/classyconf?style=plastic)
+![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
+[![Build Status](https://travis-ci.org/hernantz/classyconf.svg?branch=master)](https://travis-ci.org/hernantz/classyconf)
 [![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
 
