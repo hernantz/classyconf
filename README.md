@@ -13,12 +13,12 @@ settings are lazyly loaded, plus some other goodies.
 It's classy, it's pretty, it's good.
 
 Here is a preview of how to use it. You can find out more documentation at
-Read the Docs website.
+[Read the Docs](https://classyconf.readthedocs.io/en/latest/index.html) website.
 
 ```python
-from classyconf import ClassyConf, Value, EnvFile, IniFile
+from classyconf import Configuration, Value, EnvFile, IniFile
 
-class AppConfig(ClassyConf):
+class AppConfig(Configuration):
     """Configuration for My App"""
     class Meta:
         loaders = [EnvFile(".env"), IniFile("/etc/conf.ini/")]
