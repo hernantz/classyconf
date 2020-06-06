@@ -3,6 +3,10 @@
 ![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
 [![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
+
+![carbon(1)](https://user-images.githubusercontent.com/613512/83956322-2e314200-a833-11ea-8a60-62f95891a06c.png)
+
+
 ClassyConf is an extensible library for settings & code separation.
 
 It was born as a wrapper around
