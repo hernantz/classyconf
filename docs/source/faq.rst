@@ -52,14 +52,16 @@ Although `prettyconf` is great and very flexible, I don't like that the
 I also didn't like the default `RecursiveSearch` that it provides and I also
 needed to implement many changes and move fast to see what would work.
 
-I've made several `contributions`_ to `prettyconf` but I needed to change its
-behaviour, break things and move fast. This is backward incompatible, so, it
-could break software that relies on the old behaviour.
+I've made several `contributions`_ to `prettyconf` and even have a `talk`_
+about it, but I needed to change its behaviour, break things and move fast.
+This is backward incompatible, so, it could break software that relies on the
+old behaviour.
 
 You can use any of them. Both are good libraries and provides a similar set of
 features.
 
 .. _contributions: https://github.com/osantana/prettyconf/pulls?q=is%3Apr+author%3Ahernantz+is%3Aclosed
+.. _talk: https://www.youtube.com/watch?v=YciVleW7mzk
 
 
 How does classyconf compare to python-dotenv_?
