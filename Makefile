@@ -4,6 +4,9 @@ test:
 lint:
 	black classyconf/ tests/
 
+checklint:
+	black --check classyconf/ tests/
+
 clean:
 	-find . -iname "*.py[ocd]" -delete
 	-find . -iname "__pycache__" -exec rm -rf {} \;
