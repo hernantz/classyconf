@@ -21,13 +21,13 @@ Docs](https://classyconf.readthedocs.io/en/latest/index.html) website, but
 here is a preview of how to use it.
 
 ```python
-from classyconf import Configuration, Value, Environment, IniFile, as_boolean, env_prefix
+from classyconf import Configuration, Value, Environment, IniFile, as_boolean, EnvPrefix
 
 class AppConfig(Configuration):
     """Configuration for My App"""
     class Meta:
         loaders = [
-            Environment(keyfmt=env_prefix("MY_APP_")),
+            Environment(keyfmt=EnvPrefix("MY_APP_")),
             IniFile("/etc/app/conf.ini", section="myapp")
         ]
 
@@ -38,19 +38,18 @@ class AppConfig(Configuration):
 Later this object can be used to print settings
 
 ```python
->>> conf = AppConfig()
->>> print(conf)
-DEBUG=True
-DATABASE_URL=postgres://localhost:5432/mydb
+>>> config = AppConfig()
+>>> print(config)
+DEBUG=True - Toggle debugging mode.
+DATABASE_URL='postgres://localhost:5432/mydb' - Database connection.
 ```
 
-Or with `__repl__()`
+or with `__repl__()`
 
 ```python
->>> conf = AppConfig()
->>> conf
-DEBUG=True (Toggle debugging.)
-DATABASE_URL=postgres://localhost:5432/mydb (Database connection.)
+>>> config = AppConfig()
+>>> config
+AppConf(loaders=[Environment(keyfmt=EnvPrefix("MY_APP_"), EnvFile("main.env")])
 ```
 
 extended

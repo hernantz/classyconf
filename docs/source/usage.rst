@@ -118,9 +118,9 @@ Let's customize this:
 
 .. code-block:: python
 
-    >>> from classyconf import env_prefix
+    >>> from classyconf import EnvPrefix
     >>> config = AppConfig(loaders=[
-    ...    Environment(keyfmt=env_prefix("MY_APP_")),
+    ...    Environment(keyfmt=EnvPrefix("MY_APP_")),
     ...    IniFile("/etc/myapp/conf.ini", section="settings", keyfmt=str.lower)
     ... ])
 

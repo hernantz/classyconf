@@ -21,16 +21,19 @@ class NotSet(str):
 NOT_SET = NotSet()
 
 
-def env_prefix(prefix=""):
+class EnvPrefix():
     """
     Since the environment is a global dictionary, it is a good practice to
     namespace your settings by using a unique prefix like ``MY_APP_``.
     """
+    def __init__(self, prefix=""):
+        self.prefix = prefix
 
-    def _env_prefix(value):
-        return "{}{}".format(prefix, value.upper())
+    def __call__(self, value):
+        return "{}{}".format(self.prefix, value.upper())
 
-    return _env_prefix
+    def __repr__(self):
+        return '{}("{}")'.format(self.__class__.__name__, self.prefix)
 
 
 def get_args(parser):
@@ -154,7 +157,7 @@ class Environment(AbstractConfigurationLoader):
     Get's configuration from the environment, by inspecting ``os.environ``.
     """
 
-    def __init__(self, keyfmt=env_prefix()):
+    def __init__(self, keyfmt=EnvPrefix()):
         """
         :param function keyfmt: A function to pre-format variable names.
         """
@@ -173,7 +176,7 @@ class Environment(AbstractConfigurationLoader):
 
 
 class EnvFile(AbstractConfigurationLoader):
-    def __init__(self, filename=".env", keyfmt=env_prefix()):
+    def __init__(self, filename=".env", keyfmt=EnvPrefix()):
         """
         :param str filename: Path to the ``.env`` file.
         :param function keyfmt: A function to pre-format variable names.

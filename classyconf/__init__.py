@@ -10,7 +10,7 @@ from .configuration import (
     as_tuple,
     evaluate,
 )
-from .loaders import EnvFile, Environment, IniFile, env_prefix
+from .loaders import EnvFile, Environment, IniFile, EnvPrefix
 
 
 __version__ = "0.1.0"

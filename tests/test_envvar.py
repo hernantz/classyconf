@@ -1,15 +1,15 @@
 import os
 import pytest
-from classyconf.loaders import Environment, env_prefix
+from classyconf.loaders import Environment, EnvPrefix
 
 
 def test_env_prefix():
-    keyfmt = env_prefix()
+    keyfmt = EnvPrefix()
     assert keyfmt("test") == "TEST"
 
 
 def test_env_prefix_with_prefix():
-    keyfmt = env_prefix("prefix_")
+    keyfmt = EnvPrefix("prefix_")
     assert keyfmt("test") == "prefix_TEST"
 
 

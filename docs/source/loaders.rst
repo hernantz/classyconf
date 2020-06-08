@@ -96,20 +96,20 @@ Classyconf let's you follow these aesthetics patterns by setting a
 ``keyfmt`` function when instantiating the loaders.
 
 By default, the :py:class:`Environment<prettyconf.loaders.Environment>` is
-instantiated with ``keyfmt=env_prefix('')`` so that it looks for
+instantiated with ``keyfmt=EnvPrefix('')`` so that it looks for
 UPPER_CASED settings. But it can be easyly tweaked to address the prefix
-issue by using ``keyfmt=env_prefix("MY_APP_")``, and look for
+issue by using ``keyfmt=EnvPrefix("MY_APP_")``, and look for
 MY_APP_UPPER_CASED to play nice with other env variables.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, IniFile, Environment, Value, env_prefix
+    from classyconf import ClassyConf, IniFile, Environment, Value, EnvPrefix
 
     class AppConfig(ClassyConf):
 
         class Meta:
             loaders = [
-                Environment(keyfmt=env_prefix("MY_APP_")),
+                Environment(keyfmt=EnvPrefix(prefix="MY_APP_")),
                 IniFile("/etc/myapp/config.ini")
             ]
 
@@ -132,14 +132,14 @@ Environment
 The ``Environment`` loader gets configuration from ``os.environ``. Since it
 is a common pattern to write env variables in caps, the loader accepts a
 ``keyfmt`` function to pre-format the variable name before the lookup
-occurs. By default it is ``env_prefix("")`` which combines ``str.upper()``
+occurs. By default it is ``EnvPrefix("")`` which combines ``str.upper()``
 and an empty prefix.
 
 .. note::
     In the case of CLI apps, it would be recommended to set some sort of
     namespace so that you don't accidentally override other programs
     behaviour, like LOCALE or EDITOR, but instead MY_APP_LOCALE, etc. So
-    consider using the ``env_prefix("MY_APP_")`` approach.
+    consider using the ``EnvPrefix("MY_APP_")`` approach.
 
 
 
