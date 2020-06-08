@@ -21,11 +21,12 @@ class NotSet(str):
 NOT_SET = NotSet()
 
 
-class EnvPrefix():
+class EnvPrefix:
     """
     Since the environment is a global dictionary, it is a good practice to
     namespace your settings by using a unique prefix like ``MY_APP_``.
     """
+
     def __init__(self, prefix=""):
         self.prefix = prefix
 
