@@ -1,19 +1,14 @@
 # ClassyConf
 
 ![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
-[![Build Status](https://travis-ci.org/hernantz/classyconf.svg?branch=master)](https://travis-ci.org/hernantz/classyconf)
+![Run tests](https://github.com/hernantz/classyconf/workflows/Run%20tests/badge.svg?event=push)
 [![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
 
 
 ![carbon(2)](https://user-images.githubusercontent.com/613512/83956588-258e3b00-a836-11ea-9599-3a0a0d6c2c61.png)
 
 
-
-ClassyConf is an extensible library for settings & code separation.
-
-It was born as a wrapper around
-[prettyconf](https://github.com/osantana/prettyconf), inspired by
-[goodconf](https://github.com/lincolnloop/goodconf).
+ClassyConf is a settings management solution for perfectionists with deadlines.
 
 It adds a declarative way to define settings for your projects contained in a
 class that can be extended, config objects can be passed around modules and
@@ -21,8 +16,9 @@ settings are lazyly loaded, plus some other goodies.
 
 It's classy, it's pretty, it's good.
 
-Here is a preview of how to use it. You can find out more documentation at
-[Read the Docs](https://classyconf.readthedocs.io/en/latest/index.html) website.
+You can find out more documentation at [Read the
+Docs](https://classyconf.readthedocs.io/en/latest/index.html) website, but
+here is a preview of how to use it.
 
 ```python
 from classyconf import Configuration, Value, Environment, IniFile, as_boolean, env_prefix
@@ -87,6 +83,15 @@ accessed as dict or object
 False
 >>> config["DEBUG"]
 False
+```
+
+iterated
+
+```python
+ >>> for setting in config:
+...     print(setting)
+...
+('DEBUG', Value(key="DEBUG", help="Toggle debugging on/off."))
 ```
 
 or passed around
