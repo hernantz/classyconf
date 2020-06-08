@@ -92,6 +92,7 @@ iterated
 ...     print(setting)
 ...
 ('DEBUG', Value(key="DEBUG", help="Toggle debugging on/off."))
+('DATABASE_URL', Value(key="DATABASE_URL", help="Database connection."))
 ```
 
 or passed around
