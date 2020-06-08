@@ -8,13 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.7, 3.8]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -29,3 +27,13 @@ jobs:
       run: make checklint
     - name: Test
       run: make test
+
+  finish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
