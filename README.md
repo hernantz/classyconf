@@ -2,7 +2,7 @@
 
 ![PyPI](https://img.shields.io/pypi/v/classyconf?style=flat-square)
 ![Run tests](https://github.com/hernantz/classyconf/workflows/Run%20tests/badge.svg?event=push)
-[![Coverage Status](https://coveralls.io/repos/github/hernantz/classyconf/badge.svg?branch=master)](https://coveralls.io/github/hernantz/classyconf?branch=master)
+[![codecov](https://codecov.io/gh/hernantz/classyconf/branch/master/graph/badge.svg)](https://codecov.io/gh/hernantz/classyconf)
 
 
 ![carbon(2)](https://user-images.githubusercontent.com/613512/83956588-258e3b00-a836-11ea-9599-3a0a0d6c2c61.png)
