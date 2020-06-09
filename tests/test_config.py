@@ -54,12 +54,13 @@ def test_fail_missing_value():
     with pytest.raises(UnknownConfiguration):
         config.ENVVAR
 
+
 def test_iteration():
     config = BasicClassyConf()
     d = dict(config)
     assert len(d.keys()) == 2
-    assert d['ENVVAR'] == BasicClassyConf.ENVVAR
-    assert d['ENVVAR2'] == BasicClassyConf.ENVVAR2
+    assert d["ENVVAR"] == BasicClassyConf.ENVVAR
+    assert d["ENVVAR2"] == BasicClassyConf.ENVVAR2
 
 
 def test_customized_loaders(env_config, ini_config):
