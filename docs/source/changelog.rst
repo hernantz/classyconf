@@ -7,6 +7,12 @@ This project adheres to `Semantic Versioning`_.
 
 .. _`Semantic Versioning`: https://semver.org/spec/v2.0.0.html
 
+Unreleased
+==========
+
+  - Replaced ``env_prefix`` with the ``EnvPrefix`` class.
+  - Replaced coveralls with codecov.
+  - Replaced TravisCI with Github Actions.
 
 0.1.0
 =====
