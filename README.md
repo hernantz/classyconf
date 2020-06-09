@@ -5,7 +5,8 @@
 [![codecov](https://codecov.io/gh/hernantz/classyconf/branch/master/graph/badge.svg)](https://codecov.io/gh/hernantz/classyconf)
 
 
-![carbon(2)](https://user-images.githubusercontent.com/613512/83956588-258e3b00-a836-11ea-9599-3a0a0d6c2c61.png)
+![carbon](https://user-images.githubusercontent.com/613512/84096088-53f74c00-a9d7-11ea-9353-25d2910abc02.png)
+
 
 
 ClassyConf is a settings management solution for perfectionists with deadlines.
