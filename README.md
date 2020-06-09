@@ -9,11 +9,12 @@
 
 
 
-ClassyConf is a settings management solution for perfectionists with deadlines.
+**ClassyConf is a settings management solution for perfectionists with deadlines.**
 
-It adds a declarative way to define settings for your projects contained in a
-class that can be extended, config objects can be passed around modules and
-settings are lazyly loaded, plus some other goodies.
+It provides a declarative way to define settings for your projects contained
+in a class that can be extended, overriden at runtime, config objects can be
+passed around modules and settings are lazyly loaded, plus some other
+goodies.
 
 It's classy, it's pretty, it's good.
 
