@@ -26,10 +26,33 @@ But this code have some issues:
    file that will be used if `DEBUG` *envvar* is not defined.
 
 
+Why are executable config files a bad idea?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Executable files can be used as config sources like ``.vimrc``,
+``Vagrantfile``, etc. This approach has some drawbacks.
+
+First, your users now need to learn a new programming language, just to
+configure your application. Some apps (like the suckless_ bundle) go as far
+as requiring you to patch and compile your app to change it's configuration.
+
+And second, your configuration is no longer hierarchical, your application
+cannot extract configuration from different sources by executing different
+files, because you cannot know in advance what is being executed. So you
+tipically end up with one single executable file as config that takes care of
+everything.
+
+On the other hand, classyconf encourages traditional formats for
+configuration, like enviroment variables or ini files. The best way to think
+of configuration is as a set of key/value dicts that need to be merged into a
+single config dict. No need to get fancy.
+
+.. _`suckless`: http://suckless.org/
+
+
 Is classyconf tied to Django_ or Flask_?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-No, classyconf was designed to be framework agnostic, be it for the web, CLI
+No, classyconf was designed to be framework agnostic, can be used for web, CLI
 or GUI applications.
 
 .. _`Django`: https://www.djangoproject.com/
