@@ -128,14 +128,14 @@ class DeclarativeValuesMetaclass(type):
 class Configuration(metaclass=DeclarativeValuesMetaclass):
     """
     Encapsulates settings than can be loaded from different
-    sources
+    sources.
     """
 
     class Meta:
         loaders = None
 
     def __init__(self, loaders=None):
-        _loaders = self.Meta.loaders
+        _loaders = getattr(self.Meta, 'loaders', None)
         if _loaders is None:
             _loaders = [Environment()]
         if loaders:
