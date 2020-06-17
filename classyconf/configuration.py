@@ -5,6 +5,7 @@ from .casts import Boolean, Identity, List, Option, Tuple, evaluate
 from .exceptions import UnknownConfiguration
 from .loaders import NOT_SET, Environment
 
+
 # Shortcuts for standard casts
 as_boolean = Boolean()
 as_list = List()
@@ -167,10 +168,6 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
             except UnknownConfiguration:
                 values.append("{}=NOT_SET - {}".format(v.key, help))
         return "\n".join(values)
-
-    def __hash__(self):
-        # TODO: https://eng.lyft.com/hashing-and-equality-in-python-2ea8c738fb9d
-        return {}
 
     def __getitem__(self, value):
         return self._declared_values[value].__get__(self, self.__class__)
