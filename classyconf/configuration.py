@@ -136,8 +136,8 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
     class Meta:
         loaders = None
 
-    def __init__(self, loaders=None):
-        _loaders = getattr(self.Meta, 'loaders', None)
+    def __init__(self, *, loaders=None):
+        _loaders = getattr(self.Meta, "loaders", None)
         if _loaders is None:
             _loaders = [Environment()]
         if loaders:
