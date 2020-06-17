@@ -54,6 +54,7 @@ class Value:
     def __init__(
         self,
         key: str = None,
+        *,
         help: str = "",
         default: NOT_SET = NOT_SET,
         cast: Callable = None,
