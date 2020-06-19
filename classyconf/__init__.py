@@ -13,4 +13,4 @@ from .configuration import (
 from .loaders import EnvFile, Environment, IniFile, EnvPrefix
 
 
-__version__ = "0.2.0"
+__version__ = (0, 3, 0)
