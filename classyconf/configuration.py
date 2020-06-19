@@ -78,12 +78,7 @@ class Value:
 
     def __get__(self, instance, owner):
         if instance:
-            return getconf(
-                self.key,
-                default=self.default,
-                cast=self.cast,
-                loaders=instance._loaders,
-            )
+            return instance(self.key, default=self.default, cast=self.cast,)
         return self
 
     def __repr__(self):
@@ -135,14 +130,18 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
 
     class Meta:
         loaders = None
+        cache = False
 
-    def __init__(self, *, loaders=None):
+    def __init__(self, *, loaders=None, cache=False):
         _loaders = getattr(self.Meta, "loaders", None)
         if _loaders is None:
             _loaders = [Environment()]
         if loaders:
             _loaders = loaders
         self._loaders = _loaders
+
+        self._cache = any((getattr(self.Meta, "cache", False), cache,))
+        self._cached_values = {}
 
     def __iter__(self):
         yield from self._declared_values.items()
@@ -173,7 +172,16 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
     def __getitem__(self, value):
         return self._declared_values[value].__get__(self, self.__class__)
 
+    def __call__(self, key, *, default=NOT_SET, cast=None):
+        if self._cache and key in self._cached_values:
+            return self._cached_values[key]
+        conf = getconf(key, default, cast=cast, loaders=self._loaders)
+        if self._cache:
+            self._cached_values[key] = conf
+        return conf
+
     def reset(self):
         """Anytime you want to pick up new values call this function."""
         for loader in self._loaders:
             loader.reset()
+        self._cached_values = {}

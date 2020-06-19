@@ -9,11 +9,17 @@ from classyconf.loaders import EnvFile, Environment, IniFile
 class BasicClassyConf(Configuration):
     ENVVAR = Value(help="Just a test.")
     ENVVAR2 = Value()
+    ENVFILE = Value()
 
 
 class ChildClassyConf(BasicClassyConf):
     class Meta:
         loaders = []
+
+
+class GrandChildClassyConf(BasicClassyConf):
+    class Meta:
+        cache = True
 
 
 def test_basic_config(env_config, ini_config):
@@ -32,6 +38,31 @@ def test_child_instantiation_extends_loaders(env_config):
     assert config.ENVVAR == "Must be overrided"
     assert len(config._loaders) == 1  # EnvFile
     del os.environ["ENVVAR"]
+
+
+def test_cache_default_meta():
+    assert Configuration()._cache == False
+    assert GrandChildClassyConf()._cache == True
+
+
+def test_cache_default_meta_can_be_overrided():
+    assert Configuration(cache=True)._cache
+
+
+def test_cache_true(env_config):
+    config = ChildClassyConf(loaders=[Environment(), EnvFile(env_config)], cache=True)
+    assert config.ENVFILE == "Environment File Value"
+    os.environ["ENVFILE"] = "Environment Variable Value"
+    assert config.ENVFILE == "Environment File Value"
+    del os.environ["ENVFILE"]
+
+
+def test_cache_false(env_config):
+    config = ChildClassyConf(loaders=[Environment(), EnvFile(env_config)], cache=False)
+    assert config.ENVFILE == "Environment File Value"
+    os.environ["ENVFILE"] = "Environment Variable Value"
+    assert config.ENVFILE == "Environment Variable Value"
+    del os.environ["ENVFILE"]
 
 
 def test_value_repr():
@@ -58,9 +89,10 @@ def test_fail_missing_value():
 def test_iteration():
     config = BasicClassyConf()
     d = dict(config)
-    assert len(d.keys()) == 2
+    assert len(d.keys()) == 3
     assert d["ENVVAR"] == BasicClassyConf.ENVVAR
     assert d["ENVVAR2"] == BasicClassyConf.ENVVAR2
+    assert d["ENVFILE"] == BasicClassyConf.ENVFILE
 
 
 def test_customized_loaders(env_config, ini_config):

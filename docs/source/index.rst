@@ -29,6 +29,7 @@ perfectionists with deadlines.
    usage.rst
    loaders.rst
    casts.rst
+   advanced.rst
    faq.rst
    changelog.rst
 

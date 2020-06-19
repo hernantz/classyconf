@@ -198,22 +198,3 @@ instance for you to keep inspecting (this doesn't evaluate the setting).
     ...     print(setting)
     ...
     ('DEBUG', Value(key="DEBUG", help="Toggle debugging on/off."))
-
-
-Lastly, if you want to pickup new values at some point, for example when
-using a long running daemon, call the reset method.
-
-.. code-block:: python
-
-    import signal
-
-    config = AppConfig()
-
-    def signal_handler(signum, frame):
-        if signum == signal.SIGHUP:  # kill -1 <pid>
-            config.reset()
-
-    signal.signal(signal.SIGHUP, signal_handler)
-
-    if __name__ == '__main__':
-        main(config)
