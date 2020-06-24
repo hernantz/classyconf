@@ -38,7 +38,7 @@ as requiring you to patch and compile your app to change it's configuration.
 And second, your configuration is no longer hierarchical, your application
 cannot extract configuration from different sources by executing different
 files, because you cannot know in advance what is being executed. So you
-tipically end up with one single executable file as config that takes care of
+typically end up with one single executable file as config that takes care of
 everything.
 
 On the other hand, classyconf encourages traditional formats for

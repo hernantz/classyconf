@@ -6,7 +6,7 @@ separation of configuration and code.
 
 It adds a declarative way to define settings for your projects contained in a
 class that can be extended, config objects can be passed around modules and
-settings are lazyly loaded, plus some other goodies (aka `dunder`_ methods).
+settings are lazily loaded, plus some other goodies (aka `dunder`_ methods).
 
 It's classy, it's pretty, it's good.
 
@@ -31,16 +31,16 @@ Settings discoverability
 ++++++++++++++++++++++++
 
 Well designed applications allow different ways to be configured. For example
-CLI args are great to explore an app from the shell, but when you already
-know what you want it would be great to set some defaults in a configuration
-file somewhere.
+command line args are great to explore an app from the shell, but when you
+already know what you want it would be great to set some defaults in a
+configuration file somewhere.
 
-But what happens if a setting is passed as CLI but also exist in the config
-file?
+But what happens if a setting is passed as command line arg but also exist in
+the config file?
 
 A proper settings-discoverability chain goes as follows:
 
-1. First CLI args are checked.
+1. First command line args are checked.
 2. Then Environment variables.
 3. Config files in different directories, that also imply some hierarchy. For
    example: config files in ``/etc/myapp/settings.ini`` are applied

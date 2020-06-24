@@ -59,7 +59,7 @@ the lookup order.
 Naming conventions and namespaces for settings
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-There happen to be some formatting conventions for configuration paramenters
+There happen to be some formatting conventions for configuration parameters
 based on where they are set. For example, it is common to name environment
 variables in uppercase:
 
@@ -67,9 +67,9 @@ variables in uppercase:
 
     $ DEBUG=yes OTHER_CONFIG=10 ./app.py
 
-Since the enviroment is a global and shared dictionary, it is a good practice
-to also apply some prefix to each setting to avoid collitions with other
-known settings, like ``LOCALE``, ``TZ``, etc. This prefix works as a
+Since the environment is a global and shared dictionary, it is a good
+practice to also apply some prefix to each setting to avoid collisions with
+other known settings, like ``LOCALE``, ``TZ``, etc. This prefix works as a
 namespace for your app.
 
 .. code-block:: sh
@@ -86,7 +86,7 @@ probably be in lower case, the namespace is implicit in the file path, i.e:
     debug=yes
     other_config=10
 
-Command line argments have yet another conventions:
+Command line arguments have yet another conventions:
 
 .. code-block:: sh
 
@@ -202,8 +202,8 @@ CommandLine
 
 .. autoclass:: classyconf.loaders.CommandLine
 
-This loader lets you extract configuration variables from parsed CLI arguments.
-By default it works with `argparse`_ parsers.
+This loader lets you extract configuration variables from parsed command line
+arguments. By default it works with `argparse`_ parsers.
 
 
 .. code-block:: python

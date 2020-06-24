@@ -13,7 +13,7 @@
 
 It provides a declarative way to define settings for your projects contained
 in a class that can be extended, overriden at runtime, config objects can be
-passed around modules and settings are lazyly loaded, plus some other
+passed around modules and settings are lazily loaded, plus some other
 goodies.
 
 It's classy, it's pretty, it's good.
@@ -57,22 +57,15 @@ AppConf(loaders=[Environment(keyfmt=EnvPrefix("MY_APP_"), EnvFile("main.env")])
 extended
 
 ```python
-class AppConfig(ClassyConf):
+class TestConfig(AppConfig):
     class Meta:
-        loaders = [IniFile("app_settings.ini")]
-
-    DEBUG = Value(default=False)
-
-
-class DevConfig(AppConfig):
-    class Meta:
-        loaders = [IniFile("test_settings.ini")]
+        loaders = [IniFile("test_settings.ini"), EnvFile("main.env")]
 ```
 
 overridden at runtime
 
 ```python
->>> dev_config = AppConfig(loaders=[IniFile("test_settings.ini")])
+>>> dev_config = AppConfig(loaders=[IniFile("dev_settings.ini")])
 >>> dev_config.DEBUG
 True
 ```
