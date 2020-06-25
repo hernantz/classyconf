@@ -83,6 +83,15 @@ old behaviour.
 You can use any of them. Both are good libraries and provides a similar set of
 features.
 
+Other libraries had other issues:
+
+- Were tied to a specific web app framework.
+- Didn't allow you to specify configuration sources and their hierarchy.
+- Had a global configuration object, or made it really hard to override specific configuration when writing tests.
+- Settings were eagerly evaluated.
+- Had no facilities for auto-generating configuration documentation or inspecting it.
+
+
 .. _contributions: https://github.com/osantana/prettyconf/pulls?q=is%3Apr+author%3Ahernantz+is%3Aclosed
 .. _talk: https://www.youtube.com/watch?v=YciVleW7mzk
 
@@ -97,6 +106,20 @@ some other process, like docker-compose_ or pipenv_.
 On the other hand, classyconf does not populate the ``os.environ`` dictionary,
 because it is designed to discover configuration from diferent sources, the
 environment being just one of them.
+
+Other similar projects are direnv_ and envdir_ to load environment variables
+from directories and files.
+
+In case you are running your app as an systemd unit, there is `a section`_ to
+directly list the env vars or to suply a env file.
+
+
+.. _`python-dotenv`: https://github.com/theskumar/python-dotenv
+.. _`direnv`: https://direnv.net/
+.. _`envdir`: http://cr.yp.to/daemontools/envdir.html
+.. _`pipenv`: https://pipenv.readthedocs.io/en/latest/advanced/#automatic-loading-of-env
+.. _`a section`: https://serverfault.com/a/438945
+.. _`docker-compose`: https://docs.docker.com/compose/env-file/
 
 
 What are some useful third-parties casts for Django?
@@ -120,6 +143,3 @@ strings into that inner structures:
 .. _django-cache-url: https://github.com/ghickman/django-cache-url
 .. _dj-email-url: https://github.com/migonzalvar/dj-email-url
 .. _dj-admins-setting: https://github.com/hernantz/dj-admins-setting
-.. _`python-dotenv`: https://github.com/theskumar/python-dotenv
-.. _`pipenv`: https://pipenv.readthedocs.io/en/latest/advanced/#automatic-loading-of-env
-.. _`docker-compose`: https://docs.docker.com/compose/env-file/
