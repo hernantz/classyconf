@@ -9,18 +9,18 @@
 
 
 
-**ClassyConf is a settings management solution for perfectionists with deadlines.**
+**ClassyConf is the configuration architecture solution for perfectionists with deadlines.**
 
 It provides a declarative way to define settings for your projects contained
 in a class that can be extended, overriden at runtime, config objects can be
 passed around modules and settings are lazily loaded, plus some other
 goodies.
 
-It's classy, it's pretty, it's good.
-
 You can find out more documentation at [Read the
-Docs](https://classyconf.readthedocs.io/en/latest/index.html) website, but
-here is a preview of how to use it.
+Docs](https://classyconf.readthedocs.io/en/latest/index.html) website, and
+the [intro post](http://hernantz.github.io/configuration-is-an-api-not-an-sdk.html) here to understand the motivations behind it.
+
+Here is a preview of how to use it:
 
 ```python
 from classyconf import Configuration, Value, Environment, IniFile, as_boolean, EnvPrefix

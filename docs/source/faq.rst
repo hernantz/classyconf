@@ -26,6 +26,29 @@ But this code have some issues:
    file that will be used if `DEBUG` *envvar* is not defined.
 
 
+When should I use configuration files?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Environment variables shouldn't hold sensitive data, there are potential
+security issues:
+
+1. Accidental leaks via logging or error reporting services.
+2. Child process inheritance.
+
+Command line arguments are great for exploring the possibilities of an app,
+but passing lot's of arguments either in the short ``-s`` or long
+``--more-verbose`` formats can be cumbersome.
+
+Sometimes files are more convinient and documenting than command line
+arguments or env vars. Some file formats allow for comments and are great as
+templates to build upon.
+
+If your app is a long running process, like a webserver, you can issue a
+``SIGHUP`` signal so that it reloads it's config from files. Env vars and
+command line arguments cannot be easily changed from the outside after
+startup.
+
+
 Why are executable config files a bad idea?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Executable files can be used as config sources like ``.vimrc``,
@@ -91,6 +114,7 @@ Other libraries had other issues:
 - Settings were eagerly evaluated.
 - Had no facilities for auto-generating configuration documentation or inspecting it.
 
+Classyconf is classy, it's pretty, it's good.
 
 .. _contributions: https://github.com/osantana/prettyconf/pulls?q=is%3Apr+author%3Ahernantz+is%3Aclosed
 .. _talk: https://www.youtube.com/watch?v=YciVleW7mzk
