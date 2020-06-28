@@ -14,7 +14,7 @@ It's classy, it's pretty, it's good.
 Motivation
 ++++++++++
 
-Configuration is just another API of you app, aimed for users who will install
+Configuration is just another API of your app, aimed for users who will install
 and run it, that allows them to *preset* the state of a program, without having
 to interact with it, only through static files or environment variables.
 
@@ -32,7 +32,7 @@ Settings discoverability
 
 Well designed applications allow different ways to be configured. For example
 command line args are great to explore an app from the shell, but when you
-already know what you want it would be great to set some defaults in a
+already know what you want, it would be great to set some defaults in a
 configuration file somewhere.
 
 But what happens if a setting is passed as command line arg but also exist in
@@ -63,7 +63,7 @@ but also each setting might need to be converted from a generic type like string
 proper types like integers or db connection structs.
 
 Also each source of configuration follows some naming conventions, CLI args
-look like this ``--fag=true`` while environment variables can be ``FLAG=on``.
+look like this ``--flag=true`` while environment variables can be ``FLAG=on``.
 
 
 A settings architecture
