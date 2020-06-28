@@ -46,7 +46,7 @@ DEBUG=True - Toggle debugging mode.
 DATABASE_URL='postgres://localhost:5432/mydb' - Database connection.
 ```
 
-or with `__repl__()`
+or with `__repr__()`
 
 ```python
 >>> config = AppConfig()
