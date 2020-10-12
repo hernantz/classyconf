@@ -9,10 +9,10 @@ That's why you can specify cast functions for each individual setting.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, Environment, as_boolean
+    from classyconf import Configuration, Value, Environment, as_boolean
     from decimal import Decimal
 
-    class Config(ClassyConf)
+    class Config(Configuration)
         class Meta:
           loaders = [Environment()]
 
@@ -145,11 +145,12 @@ Custom casts
 You can implement your own custom casting function by passing any callable:
 
 .. code-block:: python
+    from classyconf import Configuration, Environment
 
     def number_list(value):
         return [int(v) for v in value.split(";")]
 
-    class Config(ClassyConf)
+    class Config(Configuration)
         class Meta:
           loaders = [Environment()]
 
@@ -174,7 +175,7 @@ So following the first example:
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, Environment
+    from classyconf import Configuration, Value, Environment
     from decimal import Decimal
 
 
@@ -182,7 +183,7 @@ So following the first example:
         return [int(v) for v in value.split(";")]
 
 
-    class Config(ClassyConf)
+    class Config(Configuration)
         class Meta:
           loaders = [Environment()]
 
