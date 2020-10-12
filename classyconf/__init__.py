@@ -10,7 +10,6 @@ from .configuration import (
     as_tuple,
     evaluate,
 )
-from .loaders import EnvFile, Environment, IniFile, EnvPrefix
-
+from .loaders import CommandLine, EnvFile, Environment, EnvPrefix, IniFile
 
 __version__ = (0, 3, 0)
