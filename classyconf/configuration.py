@@ -78,7 +78,11 @@ class Value:
 
     def __get__(self, instance, owner):
         if instance:
-            return instance(self.key, default=self.default, cast=self.cast,)
+            return instance(
+                self.key,
+                default=self.default,
+                cast=self.cast,
+            )
         return self
 
     def __repr__(self):
@@ -140,7 +144,12 @@ class Configuration(metaclass=DeclarativeValuesMetaclass):
             _loaders = loaders
         self._loaders = _loaders
 
-        self._cache = any((getattr(self.Meta, "cache", False), cache,))
+        self._cache = any(
+            (
+                getattr(self.Meta, "cache", False),
+                cache,
+            )
+        )
         self._cached_values = {}
 
     def __iter__(self):
