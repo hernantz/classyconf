@@ -25,16 +25,16 @@ change that behaviour, by customizing the loaders and the order in wich
 configuration discovery happens.
 
 Loaders can be set in the ``Meta`` class when extending
-:py:class:`ClassyConf<classyconf.configuration.ClassyConf>` or passed as a
+:py:class:`Configuration<classyconf.configuration.Configuration>` or passed as a
 param when instantiating it. The later takes precedence and overrides loaders
 defined in ``Meta``. The order within the list of loaders matters and defines
 the lookup order.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, IniFile, Environment, Value, EnvFile
+    from classyconf import Configuration, IniFile, Environment, Value, EnvFile
 
-    class AppConfig(ClassyConf):
+    class AppConfig(Configuration):
 
         class Meta:
             loaders = [
@@ -103,9 +103,9 @@ MY_APP_UPPER_CASED to play nice with other env variables.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, IniFile, Environment, Value, EnvPrefix
+    from classyconf import Configuration, IniFile, Environment, Value, EnvPrefix
 
-    class AppConfig(ClassyConf):
+    class AppConfig(Configuration):
 
         class Meta:
             loaders = [
@@ -145,9 +145,9 @@ and an empty prefix.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Environment, Value
+    from classyconf import Configuration, Environment, Value
 
-    class AppConf(ClassyConf):
+    class AppConf(Configuration):
         debug = Value(default=False)
 
 
@@ -171,9 +171,9 @@ doesn't exist, this loader will be skipped without raising any errors.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, EnvFile, Value
+    from classyconf import Configuration, EnvFile, Value
 
-    class AppConf(ClassyConf):
+    class AppConf(Configuration):
         debug = Value(default=False)
 
 
@@ -209,13 +209,13 @@ arguments. By default it works with `argparse`_ parsers.
 .. code-block:: python
 
     import argparse
-    from classyconf import ClassyConf, Value, NOT_SET, CommandLine
+    from classyconf import Configuration, Value, NOT_SET, CommandLine
 
 
     parser = argparse.ArgumentParser(description='Does something useful.')
     parser.add_argument('--debug', '-d', dest='debug', default=NOT_SET, help='set debug mode')
 
-    class AppConf(ClassyConf):
+    class AppConf(Configuration):
         DEBUG = Value(default=False)
 
     config = AppConf(loaders=[CommandLine(parser=parser)])
@@ -245,13 +245,13 @@ Dict
 This loader is great when you want to pin certain settings without having to
 change/override other loaders, files or defaults. It really comes handy when
 you are extending a
-:py:class:`ClassyConf<classyconf.configuration.ClassyConf>` class.
+:py:class:`Configuration<classyconf.configuration.Configuration>` class.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf, Value, IniFile, Dict
+    from classyconf import Configuration, Value, IniFile, Dict
 
-    class AppConfig(ClassyConf):
+    class AppConfig(Configuration):
         class Meta:
             loaders = [IniFile("/opt/myapp/config.ini"), IniFile("/etc/myapp/config.ini")]
 
@@ -413,8 +413,8 @@ Then configure classyconf to use it.
 
 .. code-block:: python
 
-    from classyconf import ClassyConf
+    from classyconf import Configuration
 
-    class AppConf(ClassyConf):
+    class AppConf(Configuration):
         class Meta:
             loaders = [YamlFile('/path/to/config.yml')]

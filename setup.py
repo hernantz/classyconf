@@ -4,6 +4,7 @@ from setuptools import setup, Command
 
 version = "0.3.0"
 
+
 def readme():
     with open("README.md") as r:
         return r.read()
@@ -23,35 +24,34 @@ class VersionCommand(Command):
 
 
 setup(
-    name='classyconf',
+    name="classyconf",
     version=version,
-    description='Extensible library for separation of settings from code.',
+    description="Extensible library for separation of settings from code.",
     long_description=readme(),
-    long_description_content_type='text/markdown',
-    author="Hernan Lozano", author_email="hernantz@gmail.com",
+    long_description_content_type="text/markdown",
+    author="Hernan Lozano",
+    author_email="hernantz@gmail.com",
     license="MIT",
-    packages=['classyconf'],
-    platforms='any',
+    packages=["classyconf"],
+    platforms="any",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Framework :: Django',
-        'Framework :: Flask',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        'Topic :: Software Development :: Libraries',
+        "Development Status :: 5 - Production/Stable",
+        "Framework :: Django",
+        "Framework :: Flask",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Topic :: Software Development :: Libraries",
     ],
-    url='http://github.com/hernantz/classyconf',
-    project_urls={
-        "Documentation": "https://classyconf.readthedocs.io/en/latest/"
-    },
-    download_url='https://github.com/hernantz/classyconf/tarball/{}'.format(version),
-    cmdclass={'version': VersionCommand},
+    url="http://github.com/hernantz/classyconf",
+    project_urls={"Documentation": "https://classyconf.readthedocs.io/en/latest/"},
+    download_url="https://github.com/hernantz/classyconf/tarball/{}".format(version),
+    cmdclass={"version": VersionCommand},
     test_suite="tests",
 )
