@@ -1,4 +1,4 @@
-from typing import Union, Tuple, Iterator
+from typing import Iterator, Tuple, Union
 
 STATE_INITIAL = "initial"
 STATE_PARSING_KEY = "parsing_key"
