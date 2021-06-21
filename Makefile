@@ -1,11 +1,14 @@
+setup:
+	poetry install
+
 test:
-	python setup.py pytest
+	poetry run pytest
 
 lint:
-	black classyconf/ tests/
+	poetry run black classyconf/ tests/
 
 checklint:
-	black --check classyconf/ tests/
+	poetry run black --check classyconf/ tests/
 
 clean:
 	-find . -iname "*.py[ocd]" -delete
@@ -13,9 +16,7 @@ clean:
 	-rm -rf dist
 
 release: clean lint test
-	git tag `python setup.py -q version`
-	git push origin `python setup.py -q version`
+	git tag `poetry version --short`
+	git push origin `poetry version --short`
 	rm -rf dist/*
-	python setup.py sdist
-	twine check dist/*
-	twine upload dist/*
+	poetry publish --build
