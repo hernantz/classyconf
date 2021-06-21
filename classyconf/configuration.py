@@ -5,7 +5,6 @@ from .casts import Boolean, Identity, List, Option, Tuple, evaluate
 from .exceptions import UnknownConfiguration
 from .loaders import NOT_SET, Environment
 
-
 # Shortcuts for standard casts
 as_boolean = Boolean()
 as_list = List()

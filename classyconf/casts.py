@@ -1,5 +1,6 @@
-from .exceptions import InvalidConfiguration
 import ast
+
+from .exceptions import InvalidConfiguration
 
 
 class AbstractCast(object):
