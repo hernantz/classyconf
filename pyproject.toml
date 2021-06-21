@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "classyconf"
-version = "0.4.0"
+version = "0.5.0"
 description = "Extensible library for separation of settings from code."
 authors = ["Hernan Lozano <hernantz@gmail.com>"]
 license = "MIT"
@@ -16,6 +16,7 @@ Sphinx = "^4.0.2"
 sphinx-rtd-theme = "^0.5.2"
 black = "^21.6b0"
 twine = "^3.4.1"
+tbump = "^6.3.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
