@@ -7,6 +7,13 @@ This project adheres to `Semantic Versioning`_.
 
 .. _`Semantic Versioning`: https://semver.org/spec/v2.0.0.html
 
+0.5.0
+=====
+
+  - Migrated from ``setup.py`` to ``pyproject.toml``.
+  - Refactored Makefile and added tbump directive.
+
+
 0.4.0
 =====
 

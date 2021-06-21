@@ -35,12 +35,12 @@ src = "pyproject.toml"
 # run after the files have been patched
 # and before the git commit is made
 
-#  [[before_commit]]
-#  name = "check changelog"
-#  cmd = "grep -q {new_version} Changelog.rst"
+[[before_commit]]
+name = "check changelog"
+cmd = "grep -q {new_version} docs/source/changelog.rst"
 
 # Or run some commands after the git tag and the branch
 # have been pushed:
-#  [[after_push]]
-#  name = "publish"
-#  cmd = "./publish.sh"
+[[after_push]]
+name = "publish"
+cmd = "make publish"
