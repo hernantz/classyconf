@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "classyconf"
-version = "0.5.0"
+version = "0.5.1"
 description = "Extensible library for separation of settings from code."
 authors = ["Hernan Lozano <hernantz@gmail.com>"]
 license = "MIT"

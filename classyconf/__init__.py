@@ -12,4 +12,4 @@ from .configuration import (
 )
 from .loaders import CommandLine, EnvFile, Environment, EnvPrefix, IniFile
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
