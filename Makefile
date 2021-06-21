@@ -20,8 +20,8 @@ clean:
 	-find . -iname "__pycache__" -exec rm -rf {} \;
 	-rm -rf dist
 
-release: clean lint test
-	git tag `poetry version --short`
-	git push origin `poetry version --short`
-	rm -rf dist/*
+release: clean lint test docs
+	poetry run tbump $(version)
+
+publish:
 	poetry publish --build
