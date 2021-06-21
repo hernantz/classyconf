@@ -1,3 +1,5 @@
+.PHONY: docs
+
 setup:
 	poetry install
 
@@ -9,6 +11,9 @@ lint:
 
 checklint:
 	poetry run black --check classyconf/ tests/
+
+docs:
+	poetry run make -C docs/ html
 
 clean:
 	-find . -iname "*.py[ocd]" -delete
