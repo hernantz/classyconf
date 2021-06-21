@@ -23,7 +23,13 @@ tag_template = "v{new_version}"
 # section containing the path of the file, relative to the
 # tbump.toml location.
 [[file]]
-src = "..."
+src = "classyconf/__init__.py"
+
+[[file]]
+src = "docs/source/conf.py"
+
+[[file]]
+src = "pyproject.toml"
 
 # You can specify a list of commands to
 # run after the files have been patched
