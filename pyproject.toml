@@ -5,9 +5,9 @@ description = "Extensible library for separation of settings from code."
 authors = ["Hernan Lozano <hernantz@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = https://github.com/hernantz/classyconf
-repository = https://github.com/hernantz/classyconf
-documentation = https://classyconf.readthedocs.io/en/latest/
+homepage = "https://github.com/hernantz/classyconf"
+repository = "https://github.com/hernantz/classyconf"
+documentation = "https://classyconf.readthedocs.io/en/latest/"
 classifiers = [
     "Topic :: Software Development :: Build Tools",
     "Topic :: Software Development :: Libraries :: Python Modules",
