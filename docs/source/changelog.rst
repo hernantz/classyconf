@@ -8,6 +8,11 @@ This project adheres to `Semantic Versioning`_.
 .. _`Semantic Versioning`: https://semver.org/spec/v2.0.0.html
 
 
+0.5.2
+==========
+  - Improved ``pyproject.toml`` metadata.
+
+
 0.5.1
 =====
 
