@@ -60,7 +60,7 @@ author = 'Hernan Lozano <hernantz@gmail.com>'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-version = '0.5.1'
+version = '0.5.2'
 
 # The full version, including alpha/beta/rc tags.
 release = version
